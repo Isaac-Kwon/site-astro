@@ -24,6 +24,6 @@ export default defineConfig({
       rehypeMathjax,
       [rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] }],
     ],
-    shikiConfig: { theme: 'github-light' },
+    shikiConfig: { themes: { light: 'github-light', dark: 'github-dark' } },
   },
 });

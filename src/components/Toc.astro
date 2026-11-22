@@ -12,7 +12,7 @@ const items = headings.filter((h) => h.depth >= 2 && h.depth <= 4);
 
 {
   items.length > 0 && (
-    <nav class:list={['toc', { 'toc-sticky': sticky }]} aria-label={label}>
+    <nav class:list={['toc', 'card', { 'toc-sticky': sticky }]} aria-label={label}>
       <h4 class="toc-title">{label}</h4>
       <ul>
         {items.map((h) => (
@@ -24,3 +24,44 @@ const items = headings.filter((h) => h.depth >= 2 && h.depth <= 4);
     </nav>
   )
 }
+
+<script>
+  // Highlight the section currently being read.
+  const links = new Map<string, HTMLAnchorElement>();
+  document.querySelectorAll<HTMLAnchorElement>('.toc a[href^="#"]').forEach((a) => {
+    links.set(decodeURIComponent(a.hash.slice(1)), a);
+  });
+  const headings = [...links.keys()]
+    .map((id) => document.getElementById(id))
+    .filter((h): h is HTMLElement => h !== null);
+  if (headings.length) {
+    let current: HTMLAnchorElement | undefined;
+    const update = () => {
+      const y = 120;
+      let active = headings[0];
+      for (const h of headings) {
+        if (h.getBoundingClientRect().top <= y) active = h;
+        else break;
+      }
+      const link = links.get(active.id);
+      if (link === current) return;
+      current?.removeAttribute('aria-current');
+      link?.setAttribute('aria-current', 'location');
+      current = link;
+    };
+    let queued = false;
+    addEventListener(
+      'scroll',
+      () => {
+        if (queued) return;
+        queued = true;
+        requestAnimationFrame(() => {
+          queued = false;
+          update();
+        });
+      },
+      { passive: true },
+    );
+    update();
+  }
+</script>

@@ -7,6 +7,7 @@ export const SITE = {
   lang: 'ko',
   titleSeparator: '-',
   gaId: 'G-894XVHGPT3',
+  heroEyebrow: 'PHYSICS · ENGINEERING · NOTES',
 };
 
 export const AUTHOR = {

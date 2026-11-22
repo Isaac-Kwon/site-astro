@@ -1,0 +1,22 @@
+---
+import { postUrl, postDate, postTags, formatDate, type Post } from '../lib/posts';
+import { excerpt } from '../lib/excerpt';
+
+interface Props {
+  post: Post;
+}
+const { post } = Astro.props;
+const summary = post.data.description ?? post.data.excerpt ?? excerpt(post.body, 120);
+const tags = postTags(post);
+---
+
+<li class="post-card card">
+  <a class="post-card-link" href={postUrl(post)}>
+    <h2 class="post-card-title">{post.data.title}</h2>
+    <p class="post-card-meta">
+      <time datetime={postDate(post).toISOString()}>{formatDate(postDate(post))}</time>
+      {tags.length > 0 && <span class="post-card-tags">{tags.map((t) => <span class="tag">{t}</span>)}</span>}
+    </p>
+    {summary && <p class="post-card-summary">{summary}</p>}
+  </a>
+</li>

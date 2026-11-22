@@ -28,32 +28,33 @@ const minutes = Math.max(1, Math.round((post.body ?? '').length / 500));
 >
   <div class="layout-sidebar">
     <AuthorProfile />
-    <article class="post">
-      <header class="post-header">
-        <h1 class="post-title">{title}</h1>
-        <p class="post-meta">
-          <time datetime={date.toISOString()}>{formatDate(date)}</time>
-          {last_modified_at && <span> · 수정 {formatDate(last_modified_at)}</span>}
-          <span> · 약 {minutes}분</span>
-        </p>
-      </header>
-      <div class:list={['post-body', { 'has-toc': toc }]}>
+    <div class:list={['post-layout', { 'has-toc': toc }]}>
+      <article class="post card">
+        <header class="post-header">
+          <h1 class="post-title">{title}</h1>
+          <p class="post-meta">
+            <time datetime={date.toISOString()}>{formatDate(date)}</time>
+            {last_modified_at && <span> · 수정 {formatDate(last_modified_at)}</span>}
+            <span> · 약 {minutes}분</span>
+          </p>
+        </header>
         {toc && <Toc headings={headings} label={toc_label} sticky={toc_sticky} />}
         <div class="prose">
           <slot />
         </div>
-      </div>
-      {
-        tags.length > 0 && (
-          <footer class="post-footer">
-            <span>태그:</span>
-            {tags.map((t) => (
-              <a class="tag" href={`/tags/#${encodeURIComponent(t.toLowerCase())}`}>{t}</a>
-            ))}
-          </footer>
-        )
-      }
-    </article>
+        {
+          tags.length > 0 && (
+            <footer class="post-footer">
+              {tags.map((t) => (
+                <a class="tag" href={`/tags/#${encodeURIComponent(t.toLowerCase())}`}>
+                  {t}
+                </a>
+              ))}
+            </footer>
+          )
+        }
+      </article>
+    </div>
   </div>
   <RootPlotLoader />
 </Base>

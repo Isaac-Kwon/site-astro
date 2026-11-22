@@ -1,26 +1,22 @@
 ---
 import Base from '../layouts/Base.astro';
 import AuthorProfile from '../components/AuthorProfile.astro';
-import { getPosts, postUrl, postDate, formatDate } from '../lib/posts';
+import PostCard from '../components/PostCard.astro';
+import { getPosts } from '../lib/posts';
 
 const recent = (await getPosts()).slice(0, 10);
 ---
 
-<Base>
+<Base hero>
   <div class="layout-sidebar">
     <AuthorProfile />
     <main class="archive">
-      <p>Welcome to Minjae Isaac Kwon's Webpage!</p>
-      <h2 class="archive-title">Recent Posts</h2>
-      <ul class="post-list">
-        {
-          recent.map((p) => (
-            <li>
-              <a href={postUrl(p)}>{p.data.title}</a>
-              <time datetime={postDate(p).toISOString()}>{formatDate(postDate(p))}</time>
-            </li>
-          ))
-        }
+      <section class="card intro">
+        <p>Welcome to Minjae Isaac Kwon's Webpage!</p>
+      </section>
+      <h2 class="section-label">Recent Posts</h2>
+      <ul class="post-cards">
+        {recent.map((p) => <PostCard post={p} />)}
       </ul>
     </main>
   </div>
