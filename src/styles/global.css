@@ -1286,7 +1286,8 @@ details.expand[open] > summary {
   background: rgb(255 255 255 / 0.25);
   color: #fff;
 }
-.title-list li[hidden] {
+.title-list li[hidden],
+.post-list > li[hidden] {
   display: none;
 }
 

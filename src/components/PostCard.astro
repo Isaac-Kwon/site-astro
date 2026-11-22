@@ -3,18 +3,20 @@ import Icon from './Icon.astro';
 import { postUrl, postDate, postTags, postCategories, formatDate, type Post } from '../lib/posts';
 import { excerpt } from '../lib/excerpt';
 
-interface Props {
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'li'> {
   post: Post;
   /** "full": date, category, tags and summary. "simple": title and summary (archive item). */
   variant?: 'full' | 'simple';
 }
-const { post, variant = 'full' } = Astro.props;
+const { post, variant = 'full', ...attrs } = Astro.props;
 const summary = post.data.description ?? post.data.excerpt ?? excerpt(post.body, 120);
 const tags = postTags(post);
 const category = postCategories(post)[0];
 ---
 
-<li class:list={['post-card', 'card', `post-card-${variant}`]}>
+<li class:list={['post-card', 'card', `post-card-${variant}`]} {...attrs}>
   <a class="post-card-link" href={postUrl(post)}>
     <h3 class="post-card-title">
       <span>{post.data.title}</span>
