@@ -8,6 +8,8 @@ export const SITE = {
   titleSeparator: '-',
   gaId: 'G-894XVHGPT3',
   heroEyebrow: 'PHYSICS · ENGINEERING · NOTES',
+  // Default accent hue (OKLCH, 0-360); must match --hue in styles/global.css.
+  hue: 258,
 };
 
 export const AUTHOR = {
@@ -28,4 +30,17 @@ export const NAV = [
   { title: 'Posts', url: '/posts/', icon: 'posts' },
   { title: 'Projects', url: '/projects/', icon: 'projects' },
   { title: 'GPLAB', url: '/gplab/', icon: 'lab' },
+] as const;
+
+// Presets offered by the colour picker (hue values, OKLCH).
+export const HUE_PRESETS = [
+  { name: 'Sky', hue: 258 },
+  { name: 'Indigo', hue: 282 },
+  { name: 'Violet', hue: 305 },
+  { name: 'Rose', hue: 355 },
+  { name: 'Coral', hue: 32 },
+  { name: 'Amber', hue: 75 },
+  { name: 'Green', hue: 145 },
+  { name: 'Teal', hue: 185 },
+  { name: 'Cyan', hue: 220 },
 ] as const;

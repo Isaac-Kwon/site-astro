@@ -1,27 +1,32 @@
 /*
- * Soft pastel look inspired by the Kanade Astro theme (rounded cards, wave
- * band) in a sky-blue palette, without illustrations: the banner is a gradient.
+ * Soft pastel look inspired by the Kanade and Shirone Astro themes (rounded
+ * cards, wave band, transparent top bar), without illustrations.
  * Layout: masthead / author card | article | TOC card.
+ *
+ * The whole palette is derived from one hue (--hue, 0-360) in OKLCH, so the
+ * visitor's colour picker only changes that value. Lightness is fixed per
+ * role, which keeps text contrast >= 4.5:1 for every hue.
  */
 :root {
-  --bg: #f1f6fd;
+  --hue: 258; /* default: sky blue (SITE.hue in consts.ts must match) */
+  --bg: oklch(0.971 0.011 var(--hue));
   --card: #ffffff;
-  --text: #3f4654;
-  --heading: #283142;
-  --muted: #636c7d;
-  --accent: #2b68bd;
-  --accent-strong: #1f5199;
-  --accent-soft: #eaf2fd;
-  --line: #e2eaf5;
-  --shadow: 0 6px 24px rgb(58 96 150 / 0.06);
-  --code-bg: #f6f9fd;
-  --hero-from: #d4e7fc;
-  --hero-mid: #e3defa;
-  --hero-to: #d5f3ee;
-  --hero-text: #2c3e5c;
+  --text: oklch(0.4 0.02 var(--hue));
+  --heading: oklch(0.3 0.03 var(--hue));
+  --muted: oklch(0.53 0.029 var(--hue));
+  --accent: oklch(0.5 0.15 var(--hue));
+  --accent-strong: oklch(0.43 0.14 var(--hue));
+  --accent-soft: oklch(0.955 0.02 var(--hue));
+  --line: oklch(0.925 0.018 var(--hue));
+  --shadow: 0 6px 24px oklch(0.45 0.08 var(--hue) / 0.07);
+  --code-bg: oklch(0.982 0.007 var(--hue));
+  --hero-from: oklch(0.92 0.04 var(--hue));
+  --hero-mid: oklch(0.915 0.04 calc(var(--hue) + 36));
+  --hero-to: oklch(0.94 0.032 calc(var(--hue) - 73));
+  --hero-text: oklch(0.36 0.06 var(--hue));
   --dot: rgb(255 255 255 / 0.55);
-  --selection: #cfe2fb;
-  --card-hover-shadow: 0 10px 28px rgb(58 123 213 / 0.12);
+  --selection: oklch(0.88 0.06 var(--hue));
+  --card-hover-shadow: 0 10px 28px oklch(0.5 0.15 var(--hue) / 0.13);
   --radius: 18px;
   --bar-h: 4rem;
   /* actual top-bar height; measured by the script in Base.astro */
@@ -39,45 +44,45 @@
 /* Dark palette: system preference unless the visitor picked a theme. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --bg: #0f1522;
-    --card: #1a2233;
-    --text: #dfe5ee;
-    --heading: #f1f4f9;
-    --muted: #9aa5b8;
-    --accent: #7fb2f0;
-    --accent-strong: #a6c9f5;
-    --accent-soft: #22324c;
-    --line: #2a3448;
+    --bg: oklch(0.197 0.028 var(--hue));
+    --card: oklch(0.253 0.034 var(--hue));
+    --text: oklch(0.92 0.014 var(--hue));
+    --heading: oklch(0.97 0.008 var(--hue));
+    --muted: oklch(0.72 0.03 var(--hue));
+    --accent: oklch(0.76 0.11 var(--hue));
+    --accent-strong: oklch(0.84 0.08 var(--hue));
+    --accent-soft: oklch(0.32 0.05 var(--hue));
+    --line: oklch(0.33 0.03 var(--hue));
     --shadow: 0 6px 24px rgb(0 0 0 / 0.2);
-    --code-bg: #141b2a;
-    --hero-from: #1c2a48;
-    --hero-mid: #262546;
-    --hero-to: #173238;
-    --hero-text: #e6eefa;
+    --code-bg: oklch(0.22 0.03 var(--hue));
+    --hero-from: oklch(0.29 0.06 var(--hue));
+    --hero-mid: oklch(0.275 0.055 calc(var(--hue) + 36));
+    --hero-to: oklch(0.28 0.045 calc(var(--hue) - 73));
+    --hero-text: oklch(0.94 0.02 var(--hue));
     --dot: rgb(255 255 255 / 0.07);
-    --selection: #2c4a75;
+    --selection: oklch(0.4 0.08 var(--hue));
     --card-hover-shadow: 0 10px 28px rgb(0 0 0 / 0.3);
     color-scheme: dark;
   }
 }
 :root[data-theme='dark'] {
-  --bg: #0f1522;
-  --card: #1a2233;
-  --text: #dfe5ee;
-  --heading: #f1f4f9;
-  --muted: #9aa5b8;
-  --accent: #7fb2f0;
-  --accent-strong: #a6c9f5;
-  --accent-soft: #22324c;
-  --line: #2a3448;
+  --bg: oklch(0.197 0.028 var(--hue));
+  --card: oklch(0.253 0.034 var(--hue));
+  --text: oklch(0.92 0.014 var(--hue));
+  --heading: oklch(0.97 0.008 var(--hue));
+  --muted: oklch(0.72 0.03 var(--hue));
+  --accent: oklch(0.76 0.11 var(--hue));
+  --accent-strong: oklch(0.84 0.08 var(--hue));
+  --accent-soft: oklch(0.32 0.05 var(--hue));
+  --line: oklch(0.33 0.03 var(--hue));
   --shadow: 0 6px 24px rgb(0 0 0 / 0.2);
-  --code-bg: #141b2a;
-  --hero-from: #1c2a48;
-  --hero-mid: #262546;
-  --hero-to: #173238;
-  --hero-text: #e6eefa;
+  --code-bg: oklch(0.22 0.03 var(--hue));
+  --hero-from: oklch(0.29 0.06 var(--hue));
+  --hero-mid: oklch(0.275 0.055 calc(var(--hue) + 36));
+  --hero-to: oklch(0.28 0.045 calc(var(--hue) - 73));
+  --hero-text: oklch(0.94 0.02 var(--hue));
   --dot: rgb(255 255 255 / 0.07);
-  --selection: #2c4a75;
+  --selection: oklch(0.4 0.08 var(--hue));
   --card-hover-shadow: 0 10px 28px rgb(0 0 0 / 0.3);
   color-scheme: dark;
 }
@@ -1356,5 +1361,134 @@ details.expand[open] > summary {
   }
   .masthead nav a .icon {
     display: none;
+  }
+}
+
+/* Accent colour picker (components/ThemeColor.astro) */
+.hue-picker {
+  position: relative;
+}
+.hue-panel {
+  position: absolute;
+  top: calc(100% + 0.6rem);
+  right: 0;
+  z-index: 60;
+  width: 17rem;
+  padding: 0.9rem 1rem 1rem;
+  color: var(--text);
+}
+.hue-panel[hidden] {
+  display: none;
+}
+.hue-head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+.hue-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  color: var(--heading);
+}
+.hue-title::before {
+  content: '';
+  width: 4px;
+  height: 1.1em;
+  border-radius: 4px;
+  background: var(--accent);
+}
+.hue-value {
+  margin-left: auto;
+  min-width: 2.6rem;
+  padding: 0.05rem 0.45rem;
+  border-radius: 6px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-family: var(--display);
+  font-size: 0.8rem;
+  text-align: center;
+}
+.hue-reset {
+  display: grid;
+  place-items: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--muted);
+  cursor: pointer;
+}
+.hue-reset:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.hue-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 0.9rem;
+  margin: 0;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    oklch(0.68 0.15 0),
+    oklch(0.68 0.15 60),
+    oklch(0.68 0.15 120),
+    oklch(0.68 0.15 180),
+    oklch(0.68 0.15 240),
+    oklch(0.68 0.15 300),
+    oklch(0.68 0.15 359)
+  );
+  cursor: pointer;
+}
+.hue-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 1.3rem;
+  height: 1.3rem;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  background: var(--accent);
+  box-shadow: 0 1px 6px rgb(0 0 0 / 0.3);
+}
+.hue-slider::-moz-range-thumb {
+  width: 1.3rem;
+  height: 1.3rem;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  background: var(--accent);
+  box-shadow: 0 1px 6px rgb(0 0 0 / 0.3);
+}
+.hue-swatches {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: 0.35rem;
+  margin-top: 0.9rem;
+}
+.hue-swatch {
+  aspect-ratio: 1;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  background: oklch(0.6 0.15 var(--swatch-hue));
+  cursor: pointer;
+  transition: transform 0.15s, border-color 0.15s;
+}
+.hue-swatch:hover {
+  transform: scale(1.1);
+}
+.hue-swatch[aria-pressed='true'] {
+  border-color: var(--heading);
+}
+@media (max-width: 640px) {
+  .hue-panel {
+    position: fixed;
+    top: calc(var(--bar-space) + 0.5rem);
+    left: 0.75rem;
+    right: 0.75rem;
+    width: auto;
   }
 }

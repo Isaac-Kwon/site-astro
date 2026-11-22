@@ -1,0 +1,98 @@
+---
+// Accent colour picker (inspired by the Shirone theme's display settings).
+// The whole palette is derived from --hue in global.css; this only sets it.
+import Icon from './Icon.astro';
+import { SITE, HUE_PRESETS } from '../consts';
+---
+
+<div class="hue-picker">
+  <button
+    class="icon-btn hue-toggle"
+    type="button"
+    aria-label="테마 색상"
+    title="테마 색상"
+    aria-expanded="false"
+    aria-controls="hue-panel"
+  >
+    <Icon name="palette" />
+  </button>
+  <div class="hue-panel card" id="hue-panel" hidden>
+    <div class="hue-head">
+      <span class="hue-title">테마 색상</span>
+      <span class="hue-value" aria-live="polite"></span>
+      <button class="hue-reset" type="button" title="기본값으로" aria-label="기본값으로">
+        <Icon name="reset" size={16} />
+      </button>
+    </div>
+    <input
+      class="hue-slider"
+      type="range"
+      min="0"
+      max="359"
+      step="1"
+      value={SITE.hue}
+      aria-label="색상 (Hue)"
+    />
+    <div class="hue-swatches" role="group" aria-label="프리셋">
+      {
+        HUE_PRESETS.map((p) => (
+          <button
+            class="hue-swatch"
+            type="button"
+            data-hue={p.hue}
+            title={p.name}
+            aria-label={p.name}
+            style={`--swatch-hue: ${p.hue}`}
+          />
+        ))
+      }
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ defaultHue: SITE.hue }}>
+  const root = document.documentElement;
+  const picker = document.querySelector('.hue-picker');
+  const toggle = picker.querySelector('.hue-toggle');
+  const panel = picker.querySelector('.hue-panel');
+  const slider = picker.querySelector('.hue-slider');
+  const value = picker.querySelector('.hue-value');
+  const swatches = [...picker.querySelectorAll('.hue-swatch')];
+
+  const current = () => Number(getComputedStyle(root).getPropertyValue('--hue')) || defaultHue;
+
+  function apply(hue, save) {
+    hue = ((Math.round(hue) % 360) + 360) % 360;
+    if (hue === defaultHue) root.style.removeProperty('--hue');
+    else root.style.setProperty('--hue', String(hue));
+    slider.value = String(hue);
+    value.textContent = String(hue);
+    swatches.forEach((s) => s.setAttribute('aria-pressed', String(Number(s.dataset.hue) === hue)));
+    if (save) {
+      try {
+        if (hue === defaultHue) localStorage.removeItem('hue');
+        else localStorage.setItem('hue', String(hue));
+      } catch {}
+    }
+  }
+
+  function setOpen(open) {
+    panel.hidden = !open;
+    toggle.setAttribute('aria-expanded', String(open));
+  }
+
+  apply(current(), false);
+  toggle.addEventListener('click', () => setOpen(panel.hidden));
+  slider.addEventListener('input', () => apply(Number(slider.value), true));
+  swatches.forEach((s) => s.addEventListener('click', () => apply(Number(s.dataset.hue), true)));
+  picker.querySelector('.hue-reset').addEventListener('click', () => apply(defaultHue, true));
+  document.addEventListener('click', (e) => {
+    if (!panel.hidden && !picker.contains(e.target)) setOpen(false);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !panel.hidden) {
+      setOpen(false);
+      toggle.focus();
+    }
+  });
+</script>
