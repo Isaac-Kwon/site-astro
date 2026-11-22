@@ -15,12 +15,12 @@ CV (영어) : [Download](/assets/files/MKWON_CV.pdf)
 
 ## 활동
 
-- *현재* : __현지 조직위원회(LOC)__, 제32회 Quark Matter 국제학회 (Quark Matter 2027), 제주, 대한민국
+- 2019년 7월 - 8월 : __CERN 썸머 스튜던트__ (Non-Member State Summer Students 2019), CERN, 스위스
 - 2021년 9월 - 2022년 6월 : __현지 조직위원, 기술 스태프__, SQM2022 (제20회 Strangeness in Quark Matter 국제학회), 부산, 대한민국
 - 2021년 9월 - 2022년 8월 : __ALICE-ITS On-call__, ALICE, CERN
 - 2021 - 2022 : __ALICE 지하 실험시설 가이드__, ALICE, CERN
-- 2019년 7월 - 8월 : __CERN 썸머 스튜던트__ (Non-Member State Summer Students 2019), CERN, 스위스
 - 2023년 11월 - *현재* : __번역팀__ (영어→한국어), [Indico](https://getindico.io), [InvenioRDM](https://inveniordm.docs.cern.ch)
+- *현재* : __현지 조직위원회(LOC)__, 제32회 Quark Matter 국제학회 (Quark Matter 2027), 제주, 대한민국
 
 ## Education
 
