@@ -29,6 +29,7 @@ export const NAV = [
   { title: 'About', url: '/about/', icon: 'user' },
   { title: 'Posts', url: '/posts/', icon: 'posts' },
   { title: 'Projects', url: '/projects/', icon: 'projects' },
+  { title: 'Publications', url: '/publications/', icon: 'paper' },
   { title: 'GPLAB', url: '/gplab/', icon: 'lab' },
 ] as const;
 

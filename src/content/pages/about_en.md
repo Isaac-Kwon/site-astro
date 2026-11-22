@@ -13,10 +13,24 @@ CV (English) : [Download](/assets/files/MKWON_CV.pdf)
 
 - SEP2022 - OCT2025 : __Researcher__, Natural Science Research Institute(NSRI), University of Seoul, Seoul, Republic of Korea
 
+## Experience
+
+- *present* : __Local Organizing Committee__, 32nd International Conference on Ultra-relativistic Nucleus-Nucleus Collisions (Quark Matter 2027), Jeju, Republic of Korea
+- SEP2021 - JUN2022 : __Local Organizer, Technical Staff__, SQM2022 (20th International Conference on Strangeness in Quark Matter), Busan, Republic of Korea
+- SEP2021 - AUG2022 : __ALICE-ITS On-call__, ALICE, CERN
+- 2021 - 2022 : __ALICE Underground Guide__, ALICE, CERN
+- JUL2019 - AUG2019 : __CERN Summer Student__ (Non-Member State Summer Students 2019), CERN, Meyrin, Switzerland
+- MAR2019 - AUG2022 : __Teaching Assistant__, General Physics Laboratory, Pusan National University
+- DEC2016 - AUG2022 : __Student Researcher__, Heavy Ion Physics Experiment Lab. (HIPEx), Pusan National University
+- NOV2023 - *present* : __Translation Team__ (en→ko), [Indico](https://getindico.io) and [InvenioRDM](https://inveniordm.docs.cern.ch)
+
+Publications: [Publications](/publications/)
+
 ## Education
 
 - MAR2015 - FEB2019 : __Bachelor of Science (B.S.)__, Physics, Pusan National University, Busan, Republic of Korea.  
-- MAR2019 - FEB2022 : __Master of Science (M.S.)__, Physics, Pusan National University, Busan, Republic of Korea.
+- MAR2019 - FEB2022 : __Master of Science (M.S.)__, Physics, Pusan National University, Busan, Republic of Korea.  
+  Thesis: *Study on reciprocal scattering of low energy alpha source using silicon pixel detector* (Supervisor: In-Kwon Yoo)
 - NOV2025 - *present* : __Ph.D Course__(Dottorato di Ricerca), Physics, Università degli Studi di Torino, Turin (Torino), Italy.
 
 ## Interests
