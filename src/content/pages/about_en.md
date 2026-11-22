@@ -20,7 +20,7 @@ CV (English) : [Download](/assets/files/MKWON_CV.pdf)
 - SEP2021 - AUG2022 : __ALICE-ITS On-call__, ALICE, CERN
 - 2021 - 2022 : __ALICE Underground Guide__, ALICE, CERN
 - NOV2023 - *present* : __Translation Team__ (en→ko), [Indico](https://getindico.io) and [InvenioRDM](https://inveniordm.docs.cern.ch)
-- *present* : __Local Organizing Committee__, 32nd International Conference on Ultra-relativistic Nucleus-Nucleus Collisions (Quark Matter 2027), Jeju, Republic of Korea
+- 2026 - *present* : __Local Organizing Committee__, 32nd International Conference on Ultra-relativistic Nucleus-Nucleus Collisions (Quark Matter 2027), Jeju, Republic of Korea
 
 ## Education
 
