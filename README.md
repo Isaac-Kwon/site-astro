@@ -12,6 +12,15 @@ npm run build        # dist/
 npm run check:urls   # 기존 Jekyll URL이 dist/에 모두 있는지 확인
 ```
 
+## 배포
+
+`main`에 push하면 GitHub Actions(`.github/workflows/deploy.yml`)가 빌드하고 GitHub Pages에 미리보기를 배포합니다.
+
+- 주소: https://isaack.dev/site-astro/ (계정 사용자 사이트의 커스텀 도메인 아래 하위 경로)
+- 미리보기 빌드는 `SITE_BASE=/site-astro/`로 만들어지고, `scripts/prefix-base.mjs`가 HTML의 `/...` 경로에 base를 붙입니다.
+- 미리보기에는 `noindex`가 붙고 canonical은 실제 주소(`https://isaack.dev/...`)를 가리키며, GA는 꺼집니다. 기존 글과 중복 콘텐츠로 잡히지 않습니다.
+- 같은 워크플로에서 base 없는 프로덕션 형태 빌드로 기존 URL 검증(`check:urls`)도 함께 돌립니다.
+
 ## 구조
 
 | 경로 | 내용 |
@@ -22,6 +31,7 @@ npm run check:urls   # 기존 Jekyll URL이 dist/에 모두 있는지 확인
 | `src/pages/` | 페이지, `feed.xml`, `sitemap.xml` (기존과 같은 주소) |
 | `src/components/RootPlotLoader.astro` | JSROOT 그래프. 그래프가 있는 페이지에서만, 화면에 보일 때 로드 |
 | `public/` | `/assets/...` 경로를 그대로 유지하는 정적 파일 |
+| `scripts/prefix-base.mjs` | 하위 경로 배포용 base 경로 보정 (base가 `/`면 아무것도 안 함) |
 | `scripts/migrate-post.mjs` | Jekyll 포스트 변환 + 참조 에셋 복사 |
 | `scripts/jekyll-urls.txt` | 기존 Jekyll 사이트가 제공하던 모든 URL (검증 기준) |
 

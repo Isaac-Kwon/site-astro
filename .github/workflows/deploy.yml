@@ -1,0 +1,56 @@
+# Build on every push; deploy main to GitHub Pages as a preview.
+# This repository is a project site of an account whose user site uses the
+# custom domain isaack.dev, so the preview is served at
+# https://isaack.dev/site-astro/ (noindex, canonical -> production URLs).
+name: Build and deploy preview
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+
+      # Production-shaped build: every URL the Jekyll site served must exist.
+      # Drop --allow-missing once all posts and pages are migrated.
+      - run: npm run build
+      - run: npm run check:urls -- --allow-missing
+
+      - name: Build preview under /site-astro/
+        run: npm run build
+        env:
+          SITE_BASE: /${{ github.event.repository.name }}/
+      - name: Drop CNAME from preview artifact
+        run: rm -f dist/CNAME
+      - uses: actions/upload-pages-artifact@v3
+        if: github.ref == 'refs/heads/main'
+        with:
+          path: dist
+
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
