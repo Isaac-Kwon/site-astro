@@ -20,8 +20,6 @@ CV (영어) : [Download](/assets/files/MKWON_CV.pdf)
 - 2021년 9월 - 2022년 8월 : __ALICE-ITS On-call__, ALICE, CERN
 - 2021 - 2022 : __ALICE 지하 실험시설 가이드__, ALICE, CERN
 - 2019년 7월 - 8월 : __CERN 썸머 스튜던트__ (Non-Member State Summer Students 2019), CERN, 스위스
-- 2019년 3월 - 2022년 8월 : __조교__, 일반물리학실험, 국립 부산대학교
-- 2016년 12월 - 2022년 8월 : __학생연구원__, 고에너지 중이온 실험실 (HIPEx), 국립 부산대학교
 - 2023년 11월 - *현재* : __번역팀__ (영어→한국어), [Indico](https://getindico.io), [InvenioRDM](https://inveniordm.docs.cern.ch)
 
 ## Education

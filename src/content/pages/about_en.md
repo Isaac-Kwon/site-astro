@@ -20,8 +20,6 @@ CV (English) : [Download](/assets/files/MKWON_CV.pdf)
 - SEP2021 - AUG2022 : __ALICE-ITS On-call__, ALICE, CERN
 - 2021 - 2022 : __ALICE Underground Guide__, ALICE, CERN
 - JUL2019 - AUG2019 : __CERN Summer Student__ (Non-Member State Summer Students 2019), CERN, Meyrin, Switzerland
-- MAR2019 - AUG2022 : __Teaching Assistant__, General Physics Laboratory, Pusan National University
-- DEC2016 - AUG2022 : __Student Researcher__, Heavy Ion Physics Experiment Lab. (HIPEx), Pusan National University
 - NOV2023 - *present* : __Translation Team__ (en→ko), [Indico](https://getindico.io) and [InvenioRDM](https://inveniordm.docs.cern.ch)
 
 ## Education
