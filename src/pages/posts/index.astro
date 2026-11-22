@@ -1,10 +1,11 @@
 ---
-// Same content as the Jekyll /posts/ page (tag link + plain list of titles),
-// plus category pills that filter the list.
+// Blog-style post list: one card per post (date, category, summary, tags),
+// newest first, with category pills that filter the list.
 import Base from '../../layouts/Base.astro';
 import AuthorProfile from '../../components/AuthorProfile.astro';
 import Icon from '../../components/Icon.astro';
-import { getPosts, postUrl, postCategories } from '../../lib/posts';
+import PostCard from '../../components/PostCard.astro';
+import { getPosts, postCategories } from '../../lib/posts';
 import { groupPosts } from '../../lib/taxonomy';
 import { taxonomySlug } from '../../lib/taxonomy';
 
@@ -42,26 +43,22 @@ const uncategorized = posts.filter((p) => postCategories(p).length === 0).length
       <section class="card intro">
         <h1 class="archive-title">Posts</h1>
         <p>태그로 보기 (View with Tag) : <a href="/tags/">Link</a></p>
-        <ul class="title-list">
-          {
-            posts.map((p) => {
-              const cats = postCategories(p).map(taxonomySlug);
-              return (
-                <li data-cats={cats.length ? cats.join(' ') : '-'}>
-                  <a href={postUrl(p)}>{p.data.title}</a>
-                </li>
-              );
-            })
-          }
-        </ul>
       </section>
+      <ul class="post-cards post-list">
+        {
+          posts.map((p) => {
+            const cats = postCategories(p).map(taxonomySlug);
+            return <PostCard post={p} data-cats={cats.length ? cats.join(' ') : '-'} />;
+          })
+        }
+      </ul>
     </main>
   </div>
 </Base>
 
 <script>
   const pills = document.querySelectorAll<HTMLButtonElement>('.pill-bar .pill');
-  const items = document.querySelectorAll<HTMLLIElement>('.title-list li');
+  const items = document.querySelectorAll<HTMLLIElement>('.post-list > li');
   pills.forEach((pill) =>
     pill.addEventListener('click', () => {
       const f = pill.dataset.filter ?? '';
