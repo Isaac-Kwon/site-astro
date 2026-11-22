@@ -1,25 +1,27 @@
 /*
- * Soft pastel look inspired by the Kanade Astro theme (pink rounded cards,
- * wave band, rose accent) without illustrations: the banner is a gradient.
+ * Soft pastel look inspired by the Kanade Astro theme (rounded cards, wave
+ * band) in a sky-blue palette, without illustrations: the banner is a gradient.
  * Layout: masthead / author card | article | TOC card.
  */
 :root {
-  --bg: #fff1f1;
+  --bg: #f1f6fd;
   --card: #ffffff;
-  --text: #4c4551;
-  --heading: #3d3442;
-  --muted: #938791;
-  --accent: #d85d7e;
-  --accent-strong: #c2486a;
-  --accent-soft: #fff0f4;
-  --line: #f3e6eb;
-  --shadow: 0 6px 24px rgb(136 86 106 / 0.06);
-  --code-bg: #fbf6f8;
-  --hero-from: #ffd9e4;
-  --hero-mid: #f4def3;
-  --hero-to: #dde8fb;
-  --hero-text: #5a3a4b;
+  --text: #3f4654;
+  --heading: #283142;
+  --muted: #7d8697;
+  --accent: #3a7bd5;
+  --accent-strong: #2a64b6;
+  --accent-soft: #eaf2fd;
+  --line: #e2eaf5;
+  --shadow: 0 6px 24px rgb(58 96 150 / 0.06);
+  --code-bg: #f6f9fd;
+  --hero-from: #d4e7fc;
+  --hero-mid: #e3defa;
+  --hero-to: #d5f3ee;
+  --hero-text: #2c3e5c;
   --dot: rgb(255 255 255 / 0.55);
+  --selection: #cfe2fb;
+  --card-hover-shadow: 0 10px 28px rgb(58 123 213 / 0.12);
   --radius: 18px;
   --max-width: 1320px;
   --sidebar: 230px;
@@ -34,42 +36,46 @@
 /* Dark palette: system preference unless the visitor picked a theme. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --bg: #111520;
-    --card: #1d2231;
-    --text: #e4deeb;
-    --heading: #f3eef7;
-    --muted: #aaa2b9;
-    --accent: #f0a2bc;
-    --accent-strong: #f6bdd0;
-    --accent-soft: #33304a;
-    --line: #2f3446;
-    --shadow: 0 6px 24px rgb(0 0 0 / 0.18);
-    --code-bg: #171b28;
-    --hero-from: #2c2440;
-    --hero-mid: #232440;
-    --hero-to: #1b2a45;
-    --hero-text: #f3e6ee;
+    --bg: #0f1522;
+    --card: #1a2233;
+    --text: #dfe5ee;
+    --heading: #f1f4f9;
+    --muted: #9aa5b8;
+    --accent: #7fb2f0;
+    --accent-strong: #a6c9f5;
+    --accent-soft: #22324c;
+    --line: #2a3448;
+    --shadow: 0 6px 24px rgb(0 0 0 / 0.2);
+    --code-bg: #141b2a;
+    --hero-from: #1c2a48;
+    --hero-mid: #262546;
+    --hero-to: #173238;
+    --hero-text: #e6eefa;
     --dot: rgb(255 255 255 / 0.07);
+    --selection: #2c4a75;
+    --card-hover-shadow: 0 10px 28px rgb(0 0 0 / 0.3);
     color-scheme: dark;
   }
 }
 :root[data-theme='dark'] {
-  --bg: #111520;
-  --card: #1d2231;
-  --text: #e4deeb;
-  --heading: #f3eef7;
-  --muted: #aaa2b9;
-  --accent: #f0a2bc;
-  --accent-strong: #f6bdd0;
-  --accent-soft: #33304a;
-  --line: #2f3446;
-  --shadow: 0 6px 24px rgb(0 0 0 / 0.18);
-  --code-bg: #171b28;
-  --hero-from: #2c2440;
-  --hero-mid: #232440;
-  --hero-to: #1b2a45;
-  --hero-text: #f3e6ee;
+  --bg: #0f1522;
+  --card: #1a2233;
+  --text: #dfe5ee;
+  --heading: #f1f4f9;
+  --muted: #9aa5b8;
+  --accent: #7fb2f0;
+  --accent-strong: #a6c9f5;
+  --accent-soft: #22324c;
+  --line: #2a3448;
+  --shadow: 0 6px 24px rgb(0 0 0 / 0.2);
+  --code-bg: #141b2a;
+  --hero-from: #1c2a48;
+  --hero-mid: #262546;
+  --hero-to: #173238;
+  --hero-text: #e6eefa;
   --dot: rgb(255 255 255 / 0.07);
+  --selection: #2c4a75;
+  --card-hover-shadow: 0 10px 28px rgb(0 0 0 / 0.3);
   color-scheme: dark;
 }
 
@@ -110,8 +116,8 @@ a:hover {
   border-radius: 4px;
 }
 ::selection {
-  background: #f6c8d6;
-  color: #593546;
+  background: var(--selection);
+  color: inherit;
 }
 
 .skip-link {
@@ -739,7 +745,7 @@ details.expand[open] > summary {
 .post-card:hover {
   transform: translateY(-2px);
   border-color: color-mix(in srgb, var(--accent) 35%, var(--line));
-  box-shadow: 0 10px 28px rgb(216 93 126 / 0.1);
+  box-shadow: var(--card-hover-shadow);
 }
 .post-card-link {
   display: block;
