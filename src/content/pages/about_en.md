@@ -24,8 +24,6 @@ CV (English) : [Download](/assets/files/MKWON_CV.pdf)
 - DEC2016 - AUG2022 : __Student Researcher__, Heavy Ion Physics Experiment Lab. (HIPEx), Pusan National University
 - NOV2023 - *present* : __Translation Team__ (en→ko), [Indico](https://getindico.io) and [InvenioRDM](https://inveniordm.docs.cern.ch)
 
-Publications: [Publications](/publications/)
-
 ## Education
 
 - MAR2015 - FEB2019 : __Bachelor of Science (B.S.)__, Physics, Pusan National University, Busan, Republic of Korea.  

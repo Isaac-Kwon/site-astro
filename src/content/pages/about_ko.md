@@ -24,8 +24,6 @@ CV (영어) : [Download](/assets/files/MKWON_CV.pdf)
 - 2016년 12월 - 2022년 8월 : __학생연구원__, 고에너지 중이온 실험실 (HIPEx), 국립 부산대학교
 - 2023년 11월 - *현재* : __번역팀__ (영어→한국어), [Indico](https://getindico.io), [InvenioRDM](https://inveniordm.docs.cern.ch)
 
-논문: [Publications](/publications/)
-
 ## Education
 
 - 2015년 3월 - 2019년 2월 : __이학사__, 물리학과, 국립 부산대학교, 부산, 대한민국.  

@@ -29,7 +29,6 @@ The Barrel Imaging Calorimeter is the barrel electromagnetic calorimeter of [ePI
 *University of Seoul, 2022 – 2025 · supported by NRF*
 
 Boron-10 coated GEM detector for (cold) neutron detection and imaging, with Geant4 studies of the detector structure.
-See [Publications](/publications/).
 
 ### Dual Readout Calorimeter
 *University of Seoul + DRC Collaboration, 2023 – 2024*
