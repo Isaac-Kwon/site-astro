@@ -1,5 +1,6 @@
 import type { APIContext } from 'astro';
 import { getPosts, postUrl, postDate, formatDate } from '../lib/posts';
+import { getPages } from '../lib/pages';
 
 // Served at /sitemap.xml, the address registered in Search Console for the
 // Jekyll site. Static pages are discovered from src/pages at build time.
@@ -28,6 +29,9 @@ export async function GET(context: APIContext) {
       loc: new URL(postUrl(p), site).href,
       lastmod: formatDate(p.data.last_modified_at ?? postDate(p)),
     })),
+    ...(await getPages())
+      .filter((p) => p.data.sitemap)
+      .map((p) => ({ loc: new URL(p.data.permalink, site).href, lastmod: undefined })),
     ...staticPageUrls().map((u) => ({ loc: new URL(u, site).href, lastmod: undefined })),
   ];
   const body =

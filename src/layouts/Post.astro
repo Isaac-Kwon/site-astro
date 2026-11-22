@@ -6,6 +6,7 @@ import Toc from '../components/Toc.astro';
 import RootPlotLoader from '../components/RootPlotLoader.astro';
 import { formatDate, postTags, postDate, type Post } from '../lib/posts';
 import { excerpt } from '../lib/excerpt';
+import { taxonomySlug } from '../lib/taxonomy';
 
 interface Props {
   post: Post;
@@ -46,7 +47,7 @@ const minutes = Math.max(1, Math.round((post.body ?? '').length / 500));
           tags.length > 0 && (
             <footer class="post-footer">
               {tags.map((t) => (
-                <a class="tag" href={`/tags/#${encodeURIComponent(t.toLowerCase())}`}>
+                <a class="tag" href={`/tags/#${taxonomySlug(t)}`}>
                   {t}
                 </a>
               ))}

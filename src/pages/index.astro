@@ -1,10 +1,7 @@
 ---
+// Front page: like the Jekyll site, only the welcome text (no post list).
 import Base from '../layouts/Base.astro';
 import AuthorProfile from '../components/AuthorProfile.astro';
-import PostCard from '../components/PostCard.astro';
-import { getPosts } from '../lib/posts';
-
-const recent = (await getPosts()).slice(0, 10);
 ---
 
 <Base hero>
@@ -14,10 +11,6 @@ const recent = (await getPosts()).slice(0, 10);
       <section class="card intro">
         <p>Welcome to Minjae Isaac Kwon's Webpage!</p>
       </section>
-      <h2 class="section-label">Recent Posts</h2>
-      <ul class="post-cards">
-        {recent.map((p) => <PostCard post={p} />)}
-      </ul>
     </main>
   </div>
 </Base>

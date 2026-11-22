@@ -3,6 +3,7 @@
 // site can render, and copy the /assets/... files it references.
 //
 //   node scripts/migrate-post.mjs <jekyll-repo> <_posts/file.md> [...more]
+//   node scripts/migrate-post.mjs --out=src/content/pages <jekyll-repo> <_pages/file.md>
 //
 // What it rewrites (anything else is reported for manual review):
 //   - kramdown IAL {:target="_blank"}        -> removed (rehype-external-links)
@@ -13,13 +14,15 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-const [, , jekyllRoot, ...files] = process.argv;
+const args = process.argv.slice(2);
+const outArg = args.find((a) => a.startsWith('--out='));
+const [jekyllRoot, ...files] = args.filter((a) => a !== outArg);
 if (!jekyllRoot || files.length === 0) {
-  console.error('usage: migrate-post.mjs <jekyll-repo> <_posts/file.md> [...]');
+  console.error('usage: migrate-post.mjs [--out=src/content/pages] <jekyll-repo> <_posts/file.md> [...]');
   process.exit(1);
 }
 
-const outDir = path.resolve('src/content/posts');
+const outDir = path.resolve(outArg ? outArg.slice('--out='.length) : 'src/content/posts');
 const publicDir = path.resolve('public');
 
 function splitFrontMatter(src) {

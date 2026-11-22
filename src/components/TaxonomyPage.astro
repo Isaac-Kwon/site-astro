@@ -1,0 +1,47 @@
+---
+import Base from '../layouts/Base.astro';
+import AuthorProfile from './AuthorProfile.astro';
+import PostCard from './PostCard.astro';
+import { groupPosts } from '../lib/taxonomy';
+
+interface Props {
+  kind: 'categories' | 'tags';
+  title: string;
+}
+const { kind, title } = Astro.props;
+const groups = await groupPosts(kind);
+---
+
+<Base title={title}>
+  <div class="layout-sidebar">
+    <AuthorProfile />
+    <main class="archive">
+      <section class="card intro">
+        <h1 class="archive-title">{title}</h1>
+        <ul class="taxonomy-index">
+          {
+            groups.map((g) => (
+              <li>
+                <a class="tag" href={`#${g.slug}`}>
+                  {g.name} <span class="taxonomy-count">{g.posts.length}</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+      {
+        groups.map((g) => (
+          <section id={g.slug} class="taxonomy-group">
+            <h2 class="section-label">{g.name}</h2>
+            <ul class="post-cards">
+              {g.posts.map((p) => (
+                <PostCard post={p} />
+              ))}
+            </ul>
+          </section>
+        ))
+      }
+    </main>
+  </div>
+</Base>

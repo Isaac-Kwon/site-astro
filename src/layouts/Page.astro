@@ -1,0 +1,57 @@
+---
+import type { MarkdownHeading } from 'astro';
+import Base from './Base.astro';
+import AuthorProfile from '../components/AuthorProfile.astro';
+import Toc from '../components/Toc.astro';
+import PostCard from '../components/PostCard.astro';
+import RootPlotLoader from '../components/RootPlotLoader.astro';
+import { getPosts, postCategories, postTags } from '../lib/posts';
+import { excerpt } from '../lib/excerpt';
+import type { Page } from '../lib/pages';
+
+interface Props {
+  page: Page;
+  headings: MarkdownHeading[];
+}
+const { page, headings } = Astro.props;
+const { title, toc, toc_label, toc_sticky, taxonomy, sitemap } = page.data;
+const description = page.data.description ?? excerpt(page.body);
+
+// Pages with a taxonomy also list the posts filed under it.
+const key = taxonomy?.toLowerCase();
+const related = key
+  ? (await getPosts()).filter((p) =>
+      [...postCategories(p), ...postTags(p)].some((t) => t.toLowerCase() === key),
+    )
+  : [];
+---
+
+<Base title={title} description={description} noindex={!sitemap}>
+  <div class="layout-sidebar">
+    <AuthorProfile />
+    <div class:list={['post-layout', { 'has-toc': toc }]}>
+      <article class="post card">
+        <header class="post-header">
+          <h1 class="post-title">{title}</h1>
+        </header>
+        {toc && <Toc headings={headings} label={toc_label} sticky={toc_sticky} />}
+        <div class="prose">
+          <slot />
+        </div>
+      </article>
+      {
+        related.length > 0 && (
+          <section class="related">
+            <h2 class="section-label">Related Posts</h2>
+            <ul class="post-cards">
+              {related.map((p) => (
+                <PostCard post={p} />
+              ))}
+            </ul>
+          </section>
+        )
+      }
+    </div>
+  </div>
+  <RootPlotLoader />
+</Base>

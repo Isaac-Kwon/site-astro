@@ -29,9 +29,8 @@ jobs:
       - run: npm ci
 
       # Production-shaped build: every URL the Jekyll site served must exist.
-      # Drop --allow-missing once all posts and pages are migrated.
       - run: npm run build
-      - run: npm run check:urls -- --allow-missing
+      - run: npm run check:urls
 
       - name: Build preview under /site-astro/
         run: npm run build

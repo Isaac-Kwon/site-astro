@@ -9,7 +9,7 @@
 npm ci
 npm run dev          # http://localhost:4321
 npm run build        # dist/
-npm run check:urls   # 기존 Jekyll URL이 dist/에 모두 있는지 확인
+npm run check:urls   # 기존 Jekyll URL 33개가 dist/에 모두 있는지 확인 (CI에서도 실행, 하나라도 없으면 실패)
 ```
 
 ## 배포
@@ -26,9 +26,10 @@ npm run check:urls   # 기존 Jekyll URL이 dist/에 모두 있는지 확인
 | 경로 | 내용 |
 |---|---|
 | `src/content/posts/` | 포스트. Jekyll 파일명(`YYYY-MM-DD-slug.md`)과 front matter를 그대로 사용 |
+| `src/content/pages/` | 일반 페이지(about, projects, gplab 등). URL은 각 파일의 `permalink` |
 | `src/lib/posts.ts` | URL 규칙. Jekyll `permalink: /:categories/:title/`을 그대로 재현 |
 | `src/content.config.ts` | front matter 스키마 |
-| `src/pages/` | 페이지, `feed.xml`, `sitemap.xml` (기존과 같은 주소) |
+| `src/pages/` | 홈, 글 목록, categories/tags, `feed.xml`, `sitemap.xml` (기존과 같은 주소) |
 | `src/components/RootPlotLoader.astro` | JSROOT 그래프. 그래프가 있는 페이지에서만, 화면에 보일 때 로드 |
 | `public/` | `/assets/...` 경로를 그대로 유지하는 정적 파일 |
 | `scripts/prefix-base.mjs` | 하위 경로 배포용 base 경로 보정 (base가 `/`면 아무것도 안 함) |
@@ -37,8 +38,11 @@ npm run check:urls   # 기존 Jekyll URL이 dist/에 모두 있는지 확인
 
 ## 포스트 옮기기
 
+Jekyll 사이트의 포스트 18개와 페이지는 모두 옮겼습니다. 새로 옮길 글이 생기면:
+
 ```bash
 node scripts/migrate-post.mjs ../isaac-kwon.github.io _posts/2021-04-13-TrendlineWithExcel.md
+node scripts/migrate-post.mjs --out=src/content/pages ../isaac-kwon.github.io _pages/about_en.md
 ```
 
 스크립트가 자동으로 바꾸는 것:

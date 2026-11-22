@@ -29,4 +29,25 @@ const posts = defineCollection({
   }),
 });
 
-export const collections = { posts };
+// Standalone pages (was _pages/). The URL is the page's own `permalink`.
+const pages = defineCollection({
+  loader: glob({
+    pattern: '**/*.md',
+    base: './src/content/pages',
+    generateId: ({ entry }) => entry.replace(/\.md$/, ''),
+  }),
+  schema: z.object({
+    title: z.string(),
+    permalink: z.string().regex(/^\/.*\/$/, 'permalink must start and end with "/"'),
+    layout: z.string().optional(),
+    // Lists posts whose category or tag matches (was layout: custom/gplab).
+    taxonomy: z.string().optional(),
+    sitemap: z.boolean().default(true),
+    description: z.string().optional(),
+    toc: z.boolean().default(false),
+    toc_label: z.string().optional(),
+    toc_sticky: z.boolean().default(false),
+  }),
+});
+
+export const collections = { posts, pages };

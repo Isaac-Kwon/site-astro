@@ -1,17 +1,43 @@
 ---
 import { render } from 'astro:content';
 import Post from '../layouts/Post.astro';
+import Page from '../layouts/Page.astro';
 import { getPosts, postPath } from '../lib/posts';
+import { getPages, pagePath } from '../lib/pages';
 
+// Posts (Jekyll /:categories/:title/ URLs) and standalone pages (their own
+// permalink) share one catch-all route; a clash fails the build.
 export async function getStaticPaths() {
-  const posts = await getPosts();
-  return posts.map((post) => ({ params: { path: postPath(post) }, props: { post } }));
+  const posts = (await getPosts()).map((post) => ({
+    params: { path: postPath(post) },
+    props: { kind: 'post' as const, entry: post },
+  }));
+  const pages = (await getPages()).map((page) => ({
+    params: { path: pagePath(page) },
+    props: { kind: 'page' as const, entry: page },
+  }));
+  const all = [...posts, ...pages];
+  const seen = new Map<string, string>();
+  for (const r of all) {
+    const prev = seen.get(r.params.path);
+    if (prev) throw new Error(`URL /${r.params.path}/ is used by both ${prev} and ${r.props.entry.id}`);
+    seen.set(r.params.path, r.props.entry.id);
+  }
+  return all;
 }
 
-const { post } = Astro.props;
-const { Content, headings } = await render(post);
+const props = Astro.props;
+const { Content, headings } = await render(props.entry);
 ---
 
-<Post post={post} headings={headings}>
-  <Content />
-</Post>
+{
+  props.kind === 'post' ? (
+    <Post post={props.entry} headings={headings}>
+      <Content />
+    </Post>
+  ) : (
+    <Page page={props.entry} headings={headings}>
+      <Content />
+    </Page>
+  )
+}
