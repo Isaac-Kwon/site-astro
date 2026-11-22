@@ -1,0 +1,89 @@
+---
+import { SITE, NAV, AUTHOR } from '../consts';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  type?: 'website' | 'article';
+  publishedTime?: string;
+  modifiedTime?: string;
+  noindex?: boolean;
+}
+
+const { title, description = SITE.description, type = 'website', publishedTime, modifiedTime, noindex = false } =
+  Astro.props;
+const fullTitle = title ? `${title} ${SITE.titleSeparator} ${SITE.title}` : SITE.title;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const current = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang={SITE.lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    {description && <meta name="description" content={description} />}
+    <meta name="author" content={AUTHOR.name} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta property="og:type" content={type} />
+    <meta property="og:locale" content={SITE.locale} />
+    <meta property="og:site_name" content={SITE.title} />
+    <meta property="og:title" content={title ?? SITE.title} />
+    <meta property="og:url" content={canonical} />
+    {description && <meta property="og:description" content={description} />}
+    {type === 'article' && <meta property="article:author" content={AUTHOR.name} />}
+    {publishedTime && <meta property="article:published_time" content={publishedTime} />}
+    {modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
+    <link rel="alternate" type="application/rss+xml" title={`${SITE.title} Feed`} href="/feed.xml" />
+    <link rel="sitemap" href="/sitemap.xml" />
+    {
+      SITE.gaId && (
+        <>
+          <script async src={`https://www.googletagmanager.com/gtag/js?id=${SITE.gaId}`} />
+          <script is:inline define:vars={{ gaId: SITE.gaId }}>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', gaId);
+          </script>
+        </>
+      )
+    }
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">본문으로 건너뛰기</a>
+    <header class="masthead">
+      <div class="masthead-inner">
+        <a class="site-title" href="/">{SITE.title}</a>
+        <nav aria-label="Main">
+          <ul>
+            {
+              NAV.map((item) => (
+                <li>
+                  <a href={item.url} aria-current={current.startsWith(item.url) ? 'page' : undefined}>
+                    {item.title}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <div id="main" class="page-wrap">
+      <slot />
+    </div>
+    <footer class="site-footer">
+      <ul class="footer-links">
+        <li><a href="https://github.com/Isaac-Kwon">GitHub</a></li>
+        <li><a href="https://facebook.com/Minjae.Isaac.Kwon">Facebook</a></li>
+        <li><a href="/feed.xml">Feed</a></li>
+      </ul>
+      <p>&copy; {new Date().getFullYear()} {SITE.title}.</p>
+    </footer>
+  </body>
+</html>

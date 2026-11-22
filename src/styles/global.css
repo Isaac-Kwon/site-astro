@@ -1,0 +1,480 @@
+/* Layout and typography loosely modelled on Minimal Mistakes (default skin). */
+:root {
+  --bg: #ffffff;
+  --fg: #2e3135;
+  --muted: #6f777d;
+  --border: #e3e6e8;
+  --link: #2f7f93;
+  --link-hover: #225d6b;
+  --code-bg: #f6f8fa;
+  --quote-border: #c8d1d6;
+  --accent-bg: #f2f5f7;
+  --max-width: 1280px;
+  --sidebar: 220px;
+  --toc: 240px;
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Apple SD Gothic Neo',
+    'Noto Sans KR', 'Malgun Gothic', sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1b1d21;
+    --fg: #e3e5e8;
+    --muted: #9aa1a7;
+    --border: #33373d;
+    --link: #6cc3d8;
+    --link-hover: #9bd7e6;
+    --code-bg: #24272c;
+    --quote-border: #4a5058;
+    --accent-bg: #23262b;
+  }
+  .root-plot,
+  .prose img {
+    background: #fff;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font);
+  line-height: 1.7;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+a {
+  color: var(--link);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+a:hover {
+  color: var(--link-hover);
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+}
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+  background: var(--bg);
+  padding: 0.5rem 1rem;
+  z-index: 10;
+}
+
+/* Masthead */
+.masthead {
+  border-bottom: 1px solid var(--border);
+}
+.masthead-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0.9rem 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1.5rem;
+}
+.site-title {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--fg);
+  text-decoration: none;
+}
+.masthead nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.masthead nav a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+.masthead nav a:hover,
+.masthead nav a[aria-current='page'] {
+  color: var(--fg);
+}
+
+/* Page frame */
+.page-wrap {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 2rem 1rem 3rem;
+}
+
+.layout-sidebar {
+  display: grid;
+  grid-template-columns: var(--sidebar) minmax(0, 1fr);
+  gap: 2.5rem;
+}
+
+/* Author profile */
+.author-profile {
+  font-size: 0.875rem;
+}
+.author-avatar {
+  display: block;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--border);
+}
+.author-name {
+  margin: 0.75rem 0 0;
+  font-size: 1.05rem;
+}
+.author-bio {
+  margin: 0.25rem 0 0;
+  color: var(--muted);
+}
+.author-links summary {
+  display: none;
+}
+.author-links ul {
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.author-links li {
+  margin: 0.2rem 0;
+}
+.author-links a {
+  color: var(--muted);
+  text-decoration: none;
+}
+.author-links a:hover {
+  color: var(--fg);
+}
+
+@media (max-width: 1024px) {
+  .layout-sidebar {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+  }
+  .author-profile {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0 1rem;
+    align-items: center;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .author-avatar {
+    width: 56px;
+    height: 56px;
+  }
+  .author-name {
+    margin: 0;
+  }
+  .author-links {
+    grid-column: 1 / -1;
+  }
+  .author-links summary {
+    display: list-item;
+    cursor: pointer;
+    color: var(--muted);
+    margin-top: 0.5rem;
+  }
+  .author-links ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+  }
+}
+
+/* Post */
+.post-title {
+  margin: 0;
+  font-size: 2rem;
+  line-height: 1.3;
+}
+.post-meta {
+  margin: 0.5rem 0 2rem;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.post-body.has-toc {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--toc);
+  gap: 2rem;
+}
+.post-body.has-toc .toc {
+  grid-column: 2;
+  grid-row: 1;
+}
+.post-body.has-toc .prose {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.toc {
+  font-size: 0.8125rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  align-self: start;
+}
+.toc-sticky {
+  position: sticky;
+  top: 1rem;
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
+}
+.toc-title {
+  margin: 0 0 0.5rem;
+  font-size: 0.875rem;
+}
+.toc ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.toc li {
+  margin: 0.2rem 0;
+  line-height: 1.4;
+}
+.toc a {
+  color: var(--muted);
+  text-decoration: none;
+}
+.toc a:hover {
+  color: var(--fg);
+}
+.toc-d3 {
+  padding-left: 0.85rem;
+}
+.toc-d4 {
+  padding-left: 1.7rem;
+}
+
+@media (max-width: 1280px) {
+  .post-body.has-toc {
+    display: block;
+  }
+  .toc {
+    margin-bottom: 2rem;
+  }
+  .toc-sticky {
+    position: static;
+    max-height: none;
+  }
+}
+
+.post-footer {
+  margin-top: 3rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+.tag {
+  background: var(--accent-bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.1rem 0.5rem;
+  text-decoration: none;
+}
+
+/* Rendered Markdown */
+.prose {
+  font-size: 1.0625rem;
+  min-width: 0;
+}
+.prose h2,
+.prose h3,
+.prose h4 {
+  line-height: 1.35;
+  margin: 2.25rem 0 0.75rem;
+  scroll-margin-top: 1rem;
+}
+.prose h2 {
+  font-size: 1.5rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--border);
+}
+.prose h3 {
+  font-size: 1.25rem;
+}
+.prose h4 {
+  font-size: 1.075rem;
+}
+.prose img {
+  max-width: 100%;
+  height: auto;
+}
+.prose .align-left {
+  float: left;
+  margin: 0.25rem 1.5rem 1rem 0;
+}
+.prose .width-half {
+  width: 50%;
+}
+@media (max-width: 640px) {
+  .prose .align-left {
+    float: none;
+    margin: 1rem 0;
+  }
+  .prose .width-half {
+    width: 100%;
+  }
+}
+.prose h2,
+.prose h3 {
+  clear: both;
+}
+.prose blockquote {
+  margin: 1.5rem 0;
+  padding: 0.25rem 1rem;
+  border-left: 4px solid var(--quote-border);
+  color: var(--muted);
+}
+.prose code {
+  font-family: var(--mono);
+  font-size: 0.875em;
+  background: var(--code-bg);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+.prose pre {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  padding: 1rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+}
+.prose pre code {
+  background: none;
+  padding: 0;
+}
+.prose table {
+  border-collapse: collapse;
+  display: block;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+}
+.prose th,
+.prose td {
+  border: 1px solid var(--border);
+  padding: 0.4rem 0.75rem;
+}
+.prose th {
+  background: var(--accent-bg);
+}
+.prose hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 2rem 0;
+}
+
+/* Math: MathJax renders SVG at build time. Wide equations scroll. */
+.prose mjx-container[display='true'] {
+  display: block;
+  overflow-x: auto;
+  overflow-y: hidden;
+  margin: 1rem 0;
+}
+.prose mjx-container svg {
+  max-width: none;
+}
+
+/* Collapsible block (was _includes/expand) */
+details.expand > summary {
+  margin-top: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+details.expand > :not(summary) {
+  margin-left: 1.5rem;
+}
+
+/* JSROOT plot (see components/RootPlotLoader.astro) */
+.root-plot {
+  position: relative;
+  width: 100%;
+  padding-top: var(--ratio, 70%);
+  margin: 1.5rem 0 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+.root-plot > .root-plot-canvas {
+  position: absolute;
+  inset: 0;
+}
+.root-plot-error {
+  padding: 1rem;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+/* Archive / lists */
+.archive-title {
+  font-size: 1.5rem;
+  margin: 0 0 1rem;
+}
+.post-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.post-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.post-list time {
+  color: var(--muted);
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+.narrow {
+  max-width: 720px;
+}
+
+/* Footer */
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding: 1.5rem 1rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 1.25rem;
+  margin: 0 0 0.5rem;
+  padding: 0;
+  list-style: none;
+}
+.footer-links a {
+  color: var(--muted);
+}

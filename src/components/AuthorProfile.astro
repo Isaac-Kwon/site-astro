@@ -1,0 +1,18 @@
+---
+import { AUTHOR } from '../consts';
+---
+
+<aside class="author-profile" aria-label="Author">
+  <img class="author-avatar" src={AUTHOR.avatar} alt={AUTHOR.name} width="110" height="110" />
+  <div>
+    <h3 class="author-name">{AUTHOR.name}</h3>
+    <p class="author-bio">{AUTHOR.bio}</p>
+  </div>
+  <details class="author-links" open>
+    <summary>Follow</summary>
+    <ul>
+      <li class="author-location">{AUTHOR.location}</li>
+      {AUTHOR.links.map((l) => <li><a href={l.url} rel="me">{l.label}</a></li>)}
+    </ul>
+  </details>
+</aside>

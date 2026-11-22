@@ -1,0 +1,59 @@
+---
+import type { MarkdownHeading } from 'astro';
+import Base from './Base.astro';
+import AuthorProfile from '../components/AuthorProfile.astro';
+import Toc from '../components/Toc.astro';
+import RootPlotLoader from '../components/RootPlotLoader.astro';
+import { formatDate, postTags, postDate, type Post } from '../lib/posts';
+import { excerpt } from '../lib/excerpt';
+
+interface Props {
+  post: Post;
+  headings: MarkdownHeading[];
+}
+const { post, headings } = Astro.props;
+const { title, toc, toc_label, toc_sticky, last_modified_at } = post.data;
+const date = postDate(post);
+const description = post.data.description ?? post.data.excerpt ?? excerpt(post.body);
+const tags = postTags(post);
+const minutes = Math.max(1, Math.round((post.body ?? '').length / 500));
+---
+
+<Base
+  title={title}
+  description={description}
+  type="article"
+  publishedTime={`${formatDate(date)}T00:00:00+09:00`}
+  modifiedTime={last_modified_at && `${formatDate(last_modified_at)}T00:00:00+09:00`}
+>
+  <div class="layout-sidebar">
+    <AuthorProfile />
+    <article class="post">
+      <header class="post-header">
+        <h1 class="post-title">{title}</h1>
+        <p class="post-meta">
+          <time datetime={date.toISOString()}>{formatDate(date)}</time>
+          {last_modified_at && <span> · 수정 {formatDate(last_modified_at)}</span>}
+          <span> · 약 {minutes}분</span>
+        </p>
+      </header>
+      <div class:list={['post-body', { 'has-toc': toc }]}>
+        {toc && <Toc headings={headings} label={toc_label} sticky={toc_sticky} />}
+        <div class="prose">
+          <slot />
+        </div>
+      </div>
+      {
+        tags.length > 0 && (
+          <footer class="post-footer">
+            <span>태그:</span>
+            {tags.map((t) => (
+              <a class="tag" href={`/tags/#${encodeURIComponent(t.toLowerCase())}`}>{t}</a>
+            ))}
+          </footer>
+        )
+      }
+    </article>
+  </div>
+  <RootPlotLoader />
+</Base>

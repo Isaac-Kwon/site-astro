@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+import AuthorProfile from '../components/AuthorProfile.astro';
+import { getPosts, postUrl, postDate, formatDate } from '../lib/posts';
+
+const recent = (await getPosts()).slice(0, 10);
+---
+
+<Base>
+  <div class="layout-sidebar">
+    <AuthorProfile />
+    <main class="archive">
+      <p>Welcome to Minjae Isaac Kwon's Webpage!</p>
+      <h2 class="archive-title">Recent Posts</h2>
+      <ul class="post-list">
+        {
+          recent.map((p) => (
+            <li>
+              <a href={postUrl(p)}>{p.data.title}</a>
+              <time datetime={postDate(p).toISOString()}>{formatDate(postDate(p))}</time>
+            </li>
+          ))
+        }
+      </ul>
+    </main>
+  </div>
+</Base>

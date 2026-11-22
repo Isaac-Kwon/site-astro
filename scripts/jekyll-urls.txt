@@ -1,0 +1,35 @@
+# Every page the Jekyll site served (built from isaac-kwon.github.io with Jekyll 3.10).
+# scripts/check-urls.mjs fails the build check if any of these is missing from dist/.
+/404.html
+/about/
+/about_ko-tmi/
+/about_ko/
+/categories/
+/computationalphysics/garfield-cvmfs/
+/feed.xml
+/google3d4d86d4d3693a8e.html
+/gplab/gplab-02/
+/gplab/gplab-score-est/
+/gplab/gplab-score-est_1/
+/gplab/gplab-score-est_home/
+/gplab/
+/
+/jstestpage/
+/posts/ComputationalPhysics-00/
+/posts/GOST-00/
+/posts/MeasureAndStatistics/
+/posts/ThesisTemplateLaTeX/
+/posts/TrendlineWithExcel/
+/posts/drama-labpeople/
+/posts/exp-design/
+/posts/
+/posts/network-test/
+/posts/ping-spike-macos/
+/posts/qupid-00/
+/posts/trendline-basic/
+/projects/
+/robots.txt
+/scperror/
+/sitemap.xml
+/tags/
+/xdisplay-environment/

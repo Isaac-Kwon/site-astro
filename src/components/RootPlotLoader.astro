@@ -1,0 +1,37 @@
+---
+// Renders every <div class="root-plot" data-file data-item> on the page with
+// JSROOT. JSROOT is only downloaded when such a block scrolls into view, so
+// pages without ROOT plots ship no JavaScript for it.
+---
+
+<script>
+  const blocks = document.querySelectorAll<HTMLElement>('.root-plot[data-file]');
+  if (blocks.length) {
+    const render = async (el: HTMLElement) => {
+      const target = document.createElement('div');
+      target.className = 'root-plot-canvas';
+      el.replaceChildren(target);
+      try {
+        const { openFile, draw } = await import('jsroot');
+        const file = await openFile(el.dataset.file!);
+        const obj = await file.readObject(el.dataset.item!);
+        await draw(target, obj, '');
+      } catch (err) {
+        el.classList.add('root-plot-error');
+        el.textContent = `ROOT 그래프를 불러오지 못했습니다 (${el.dataset.file})`;
+        console.error(err);
+      }
+    };
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (!e.isIntersecting) continue;
+          io.unobserve(e.target);
+          render(e.target as HTMLElement);
+        }
+      },
+      { rootMargin: '300px' },
+    );
+    blocks.forEach((b) => io.observe(b));
+  }
+</script>

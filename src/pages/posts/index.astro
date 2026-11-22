@@ -1,0 +1,27 @@
+---
+import Base from '../../layouts/Base.astro';
+import AuthorProfile from '../../components/AuthorProfile.astro';
+import { getPosts, postUrl, postDate, formatDate } from '../../lib/posts';
+
+const posts = await getPosts();
+---
+
+<Base title="Posts">
+  <div class="layout-sidebar">
+    <AuthorProfile />
+    <main class="archive">
+      <h1 class="archive-title">Posts</h1>
+      <p>태그로 보기 (View with Tag) : <a href="/tags/">Link</a></p>
+      <ul class="post-list">
+        {
+          posts.map((p) => (
+            <li>
+              <a href={postUrl(p)}>{p.data.title}</a>
+              <time datetime={postDate(p).toISOString()}>{formatDate(postDate(p))}</time>
+            </li>
+          ))
+        }
+      </ul>
+    </main>
+  </div>
+</Base>

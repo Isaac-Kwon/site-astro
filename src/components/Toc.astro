@@ -1,0 +1,26 @@
+---
+import type { MarkdownHeading } from 'astro';
+
+interface Props {
+  headings: MarkdownHeading[];
+  label?: string;
+  sticky?: boolean;
+}
+const { headings, label = 'On this page', sticky = false } = Astro.props;
+const items = headings.filter((h) => h.depth >= 2 && h.depth <= 4);
+---
+
+{
+  items.length > 0 && (
+    <nav class:list={['toc', { 'toc-sticky': sticky }]} aria-label={label}>
+      <h4 class="toc-title">{label}</h4>
+      <ul>
+        {items.map((h) => (
+          <li class={`toc-d${h.depth}`}>
+            <a href={`#${h.slug}`}>{h.text}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )
+}
