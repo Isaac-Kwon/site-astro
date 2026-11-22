@@ -61,7 +61,7 @@ const share = [
   <div class="layout-sidebar">
     <AuthorProfile />
     <div class:list={['post-layout', { 'has-toc': toc }]}>
-      <article class="post card">
+      <article class="post card" data-pagefind-body>
         <header class="post-header">
           <h1 class="post-title">{title}</h1>
         </header>
@@ -69,7 +69,7 @@ const share = [
         <div class="prose">
           <slot />
         </div>
-        <footer class="post-footer">
+        <footer class="post-footer" data-pagefind-ignore="all">
           <dl class="post-taxonomy">
             {
               tags.length > 0 && (

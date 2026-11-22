@@ -1,0 +1,74 @@
+---
+// Site search (Pagefind). The index is built after `astro build` by
+// `pagefind --site dist`; the UI is only downloaded when the dialog opens.
+import Icon from './Icon.astro';
+---
+
+<dialog class="search-dialog card" aria-label="검색">
+  <div class="search-head">
+    <span class="search-title">검색</span>
+    <button class="search-close" type="button" aria-label="닫기"><Icon name="close" /></button>
+  </div>
+  <div id="site-search" class="search-body"></div>
+</dialog>
+
+<script>
+  declare global {
+    interface Window {
+      PagefindUI?: new (opts: Record<string, unknown>) => unknown;
+    }
+  }
+  const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+  const dialog = document.querySelector<HTMLDialogElement>('.search-dialog');
+  let loaded: Promise<void> | undefined;
+
+  function load(): Promise<void> {
+    loaded ??= new Promise((resolve, reject) => {
+      const css = document.createElement('link');
+      css.rel = 'stylesheet';
+      css.href = `${base}pagefind/pagefind-ui.css`;
+      document.head.append(css);
+      const js = document.createElement('script');
+      js.src = `${base}pagefind/pagefind-ui.js`;
+      js.onload = () => {
+        new window.PagefindUI!({
+          element: '#site-search',
+          baseUrl: base,
+          bundlePath: `${base}pagefind/`,
+          showSubResults: true,
+          showImages: false,
+          resetStyles: false,
+          translations: { placeholder: '글 검색', zero_results: '"[SEARCH_TERM]"에 대한 결과가 없습니다' },
+        });
+        resolve();
+      };
+      js.onerror = reject;
+      document.head.append(js);
+    });
+    return loaded;
+  }
+
+  async function open() {
+    if (!dialog) return;
+    dialog.showModal();
+    try {
+      await load();
+      dialog.querySelector<HTMLInputElement>('input')?.focus();
+    } catch {
+      dialog.querySelector('#site-search')!.textContent = '검색을 불러오지 못했습니다.';
+    }
+  }
+
+  document.querySelectorAll('.search-toggle').forEach((b) => b.addEventListener('click', open));
+  dialog?.querySelector('.search-close')?.addEventListener('click', () => dialog.close());
+  dialog?.addEventListener('click', (e) => {
+    if (e.target === dialog) dialog.close(); // backdrop
+  });
+  addEventListener('keydown', (e) => {
+    const typing = (e.target as HTMLElement).closest('input, textarea, [contenteditable]');
+    if ((e.key === '/' && !typing) || (e.key.toLowerCase() === 'k' && (e.metaKey || e.ctrlKey))) {
+      e.preventDefault();
+      open();
+    }
+  });
+</script>

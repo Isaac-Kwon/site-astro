@@ -1,0 +1,35 @@
+---
+// Small inline stroke icons (24x24 grid, currentColor).
+const PATHS = {
+  home: 'M3.5 10.5 12 3.5l8.5 7M5.5 9v11h4.5v-6h4v6h4.5V9',
+  user: 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM4.5 20.5c.8-3.8 3.8-6 7.5-6s6.7 2.2 7.5 6',
+  posts: 'M6 3.5h8.5L19 8v12.5H6zM14 3.5V8.5h5M9 12.5h7M9 16h7',
+  projects: 'M3.5 7.5v12h17v-10h-9l-2-2.5h-6zM3.5 7.5h17',
+  lab: 'M9.5 3.5v6L4.8 18a1.8 1.8 0 0 0 1.6 2.5h11.2a1.8 1.8 0 0 0 1.6-2.5L14.5 9.5v-6M8 3.5h8M7 14.5h10',
+  search: 'M10.5 17.5a7 7 0 1 0 0-14 7 7 0 0 0 0 14ZM20.5 20.5l-5-5',
+  calendar: 'M4.5 6.5h15v14h-15zM4.5 10.5h15M8.5 3.5v5M15.5 3.5v5',
+  folder: 'M3.5 6.5h6l2 2.5h9v11h-17z',
+  chevron: 'm9.5 6 6 6-6 6',
+  pin: 'M12 13.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12 21s-6.5-6-6.5-11a6.5 6.5 0 0 1 13 0C18.5 15 12 21 12 21Z',
+  close: 'M6 6l12 12M18 6 6 18',
+} as const;
+
+interface Props {
+  name: keyof typeof PATHS;
+  size?: number;
+  class?: string;
+}
+const { name, size = 18, class: className } = Astro.props;
+---
+
+<svg
+  class:list={['icon', className]}
+  viewBox="0 0 24 24"
+  width={size}
+  height={size}
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.8"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"><path d={PATHS[name]}></path></svg>

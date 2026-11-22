@@ -12,7 +12,7 @@ const items = headings.filter((h) => h.depth >= 2 && h.depth <= 4);
 
 {
   items.length > 0 && (
-    <nav class:list={['toc', 'card', { 'toc-sticky': sticky }]} aria-label={label}>
+    <nav class:list={['toc', 'card', { 'toc-sticky': sticky }]} aria-label={label} data-pagefind-ignore="all">
       <h4 class="toc-title">{label}</h4>
       <ul>
         {items.map((h) => (

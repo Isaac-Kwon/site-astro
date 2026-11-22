@@ -1,34 +1,50 @@
 ---
-import { postUrl, postDate, postTags, formatDate, type Post } from '../lib/posts';
+import Icon from './Icon.astro';
+import { postUrl, postDate, postTags, postCategories, formatDate, type Post } from '../lib/posts';
 import { excerpt } from '../lib/excerpt';
 
 interface Props {
   post: Post;
-  /** "full": date, tags and summary. "simple": title and summary (archive item). */
+  /** "full": date, category, tags and summary. "simple": title and summary (archive item). */
   variant?: 'full' | 'simple';
 }
 const { post, variant = 'full' } = Astro.props;
 const summary = post.data.description ?? post.data.excerpt ?? excerpt(post.body, 120);
 const tags = postTags(post);
+const category = postCategories(post)[0];
 ---
 
 <li class:list={['post-card', 'card', `post-card-${variant}`]}>
   <a class="post-card-link" href={postUrl(post)}>
-    <h3 class="post-card-title">{post.data.title}</h3>
+    <h3 class="post-card-title">
+      <span>{post.data.title}</span>
+      <Icon name="chevron" size={18} class="post-card-arrow" />
+    </h3>
     {
       variant === 'full' && (
         <p class="post-card-meta">
-          <time datetime={postDate(post).toISOString()}>{formatDate(postDate(post))}</time>
-          {tags.length > 0 && (
-            <span class="post-card-tags">
-              {tags.map((t) => (
-                <span class="tag">{t}</span>
-              ))}
+          <span class="meta-item">
+            <Icon name="calendar" size={15} />
+            <time datetime={postDate(post).toISOString()}>{formatDate(postDate(post))}</time>
+          </span>
+          {category && (
+            <span class="meta-item">
+              <Icon name="folder" size={15} />
+              {category}
             </span>
           )}
         </p>
       )
     }
     {summary && <p class="post-card-summary">{summary}</p>}
+    {
+      variant === 'full' && tags.length > 0 && (
+        <p class="post-card-tags">
+          {tags.map((t) => (
+            <span class="tag">{t}</span>
+          ))}
+        </p>
+      )
+    }
   </a>
 </li>

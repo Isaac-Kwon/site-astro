@@ -1,9 +1,10 @@
 ---
+import Icon from './Icon.astro';
 import { AUTHOR } from '../consts';
 ---
 
 <aside class="author-profile card" aria-label="Author">
-  <img class="author-avatar" src={AUTHOR.avatar} alt={AUTHOR.name} width="88" height="88" />
+  <img class="author-avatar" src={AUTHOR.avatar} alt={AUTHOR.name} width="240" height="240" />
   <div class="author-text">
     <h3 class="author-name">{AUTHOR.name}</h3>
     <p class="author-bio">{AUTHOR.bio}</p>
@@ -11,7 +12,7 @@ import { AUTHOR } from '../consts';
   <details class="author-links" open>
     <summary>Follow</summary>
     <ul>
-      <li class="author-location">{AUTHOR.location}</li>
+      <li class="author-location"><Icon name="pin" size={15} /> {AUTHOR.location}</li>
       {AUTHOR.links.map((l) => <li><a href={l.url} rel="me">{l.label}</a></li>)}
     </ul>
   </details>

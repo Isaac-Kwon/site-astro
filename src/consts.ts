@@ -24,8 +24,8 @@ export const AUTHOR = {
 };
 
 export const NAV = [
-  { title: 'About', url: '/about/' },
-  { title: 'Posts', url: '/posts/' },
-  { title: 'Projects', url: '/projects/' },
-  { title: 'GPLAB', url: '/gplab/' },
-];
+  { title: 'About', url: '/about/', icon: 'user' },
+  { title: 'Posts', url: '/posts/', icon: 'posts' },
+  { title: 'Projects', url: '/projects/', icon: 'projects' },
+  { title: 'GPLAB', url: '/gplab/', icon: 'lab' },
+] as const;

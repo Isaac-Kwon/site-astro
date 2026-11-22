@@ -1,29 +1,78 @@
 ---
-// Same content as the Jekyll /posts/ page: tag link + plain list of titles.
+// Same content as the Jekyll /posts/ page (tag link + plain list of titles),
+// plus category pills that filter the list.
 import Base from '../../layouts/Base.astro';
 import AuthorProfile from '../../components/AuthorProfile.astro';
-import { getPosts, postUrl } from '../../lib/posts';
+import Icon from '../../components/Icon.astro';
+import { getPosts, postUrl, postCategories } from '../../lib/posts';
+import { groupPosts } from '../../lib/taxonomy';
+import { taxonomySlug } from '../../lib/taxonomy';
 
 const posts = await getPosts();
+const categories = await groupPosts('categories');
+const uncategorized = posts.filter((p) => postCategories(p).length === 0).length;
 ---
 
 <Base title="Posts">
   <div class="layout-sidebar">
     <AuthorProfile />
     <main class="archive">
+      <nav class="pill-bar card" aria-label="카테고리 필터">
+        <button class="pill is-active" type="button" data-filter="" aria-label="전체" aria-pressed="true">
+          <Icon name="home" size={16} />
+          <span class="pill-count">{posts.length}</span>
+        </button>
+        {
+          categories.map((c) => (
+            <button class="pill" type="button" data-filter={c.slug} aria-pressed="false">
+              {c.name}
+              <span class="pill-count">{c.posts.length}</span>
+            </button>
+          ))
+        }
+        {
+          uncategorized > 0 && (
+            <button class="pill" type="button" data-filter="-" aria-pressed="false">
+              etc.
+              <span class="pill-count">{uncategorized}</span>
+            </button>
+          )
+        }
+      </nav>
       <section class="card intro">
         <h1 class="archive-title">Posts</h1>
         <p>태그로 보기 (View with Tag) : <a href="/tags/">Link</a></p>
         <ul class="title-list">
           {
-            posts.map((p) => (
-              <li>
-                <a href={postUrl(p)}>{p.data.title}</a>
-              </li>
-            ))
+            posts.map((p) => {
+              const cats = postCategories(p).map(taxonomySlug);
+              return (
+                <li data-cats={cats.length ? cats.join(' ') : '-'}>
+                  <a href={postUrl(p)}>{p.data.title}</a>
+                </li>
+              );
+            })
           }
         </ul>
       </section>
     </main>
   </div>
 </Base>
+
+<script>
+  const pills = document.querySelectorAll<HTMLButtonElement>('.pill-bar .pill');
+  const items = document.querySelectorAll<HTMLLIElement>('.title-list li');
+  pills.forEach((pill) =>
+    pill.addEventListener('click', () => {
+      const f = pill.dataset.filter ?? '';
+      pills.forEach((p) => {
+        const on = p === pill;
+        p.classList.toggle('is-active', on);
+        p.setAttribute('aria-pressed', String(on));
+      });
+      items.forEach((li) => {
+        li.hidden = f !== '' && !(li.dataset.cats ?? '').split(' ').includes(f);
+      });
+    }),
+  );
+</script>

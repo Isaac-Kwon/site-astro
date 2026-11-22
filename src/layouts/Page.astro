@@ -30,7 +30,7 @@ const related = key
   <div class="layout-sidebar">
     <AuthorProfile />
     <div class:list={['post-layout', { 'has-toc': toc }]}>
-      <article class="post card">
+      <article class="post card" data-pagefind-body={sitemap ? '' : undefined}>
         <header class="post-header">
           <h1 class="post-title">{title}</h1>
         </header>

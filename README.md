@@ -8,7 +8,7 @@
 ```bash
 npm ci
 npm run dev          # http://localhost:4321
-npm run build        # dist/
+npm run build        # dist/ + 검색 인덱스(Pagefind, dist/pagefind/)
 npm run check:urls   # 기존 Jekyll URL 33개가 dist/에 모두 있는지 확인 (CI에서도 실행, 하나라도 없으면 실패)
 ```
 
@@ -30,6 +30,7 @@ npm run check:urls   # 기존 Jekyll URL 33개가 dist/에 모두 있는지 확�
 | `src/lib/posts.ts` | URL 규칙. Jekyll `permalink: /:categories/:title/`을 그대로 재현 |
 | `src/content.config.ts` | front matter 스키마 |
 | `src/pages/` | 홈, 글 목록, categories/tags, `feed.xml`, `sitemap.xml` (기존과 같은 주소) |
+| `src/components/Search.astro` | 사이트 검색(Pagefind). `/` 또는 Ctrl/⌘+K로 열림. 포스트와 페이지 본문만 색인 |
 | `src/components/RootPlotLoader.astro` | JSROOT 그래프. 그래프가 있는 페이지에서만, 화면에 보일 때 로드 |
 | `public/` | `/assets/...` 경로를 그대로 유지하는 정적 파일 |
 | `scripts/prefix-base.mjs` | 하위 경로 배포용 base 경로 보정 (base가 `/`면 아무것도 안 함) |
