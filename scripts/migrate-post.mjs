@@ -73,6 +73,16 @@ function convertDisplayMath(body) {
   return out.join('\n');
 }
 
+function dropBodySeparators(body) {
+  // kramdown: a separator row inside a table body starts a new <tbody>.
+  // GFM would render it as a data row of dashes, so drop it.
+  const sep = /^\|?\s*:?-+:?\s*(\|\s*:?-+:?\s*)+\|?\s*$/;
+  const lines = body.split('\n');
+  return lines
+    .filter((l, i) => !(sep.test(l) && i >= 2 && lines[i - 2].trim().startsWith('|')))
+    .join('\n');
+}
+
 function separateHtmlBlocks(body) {
   // CommonMark keeps an HTML block open until a blank line; kramdown did not.
   body = body.replace(/^(<\/(?:div|details|figure|table)>)[ \t]*\n(?=[^\n])/gm, '$1\n\n');
@@ -115,6 +125,7 @@ for (const file of files) {
   body = convertExpand(body);
   body = convertJsroot(body);
   body = convertDisplayMath(body);
+  body = dropBodySeparators(body);
   body = separateHtmlBlocks(body);
 
   const out = path.join(outDir, path.basename(file));
