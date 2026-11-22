@@ -4,19 +4,31 @@ import { excerpt } from '../lib/excerpt';
 
 interface Props {
   post: Post;
+  /** "full": date, tags and summary. "simple": title and summary (archive item). */
+  variant?: 'full' | 'simple';
 }
-const { post } = Astro.props;
+const { post, variant = 'full' } = Astro.props;
 const summary = post.data.description ?? post.data.excerpt ?? excerpt(post.body, 120);
 const tags = postTags(post);
 ---
 
-<li class="post-card card">
+<li class:list={['post-card', 'card', `post-card-${variant}`]}>
   <a class="post-card-link" href={postUrl(post)}>
-    <h2 class="post-card-title">{post.data.title}</h2>
-    <p class="post-card-meta">
-      <time datetime={postDate(post).toISOString()}>{formatDate(postDate(post))}</time>
-      {tags.length > 0 && <span class="post-card-tags">{tags.map((t) => <span class="tag">{t}</span>)}</span>}
-    </p>
+    <h3 class="post-card-title">{post.data.title}</h3>
+    {
+      variant === 'full' && (
+        <p class="post-card-meta">
+          <time datetime={postDate(post).toISOString()}>{formatDate(postDate(post))}</time>
+          {tags.length > 0 && (
+            <span class="post-card-tags">
+              {tags.map((t) => (
+                <span class="tag">{t}</span>
+              ))}
+            </span>
+          )}
+        </p>
+      )
+    }
     {summary && <p class="post-card-summary">{summary}</p>}
   </a>
 </li>

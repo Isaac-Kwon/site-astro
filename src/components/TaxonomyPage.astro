@@ -13,7 +13,7 @@ const groups = await groupPosts(kind);
 ---
 
 <Base title={title}>
-  <div class="layout-sidebar">
+  <div class="layout-sidebar" id="page-top">
     <AuthorProfile />
     <main class="archive">
       <section class="card intro">
@@ -22,8 +22,8 @@ const groups = await groupPosts(kind);
           {
             groups.map((g) => (
               <li>
-                <a class="tag" href={`#${g.slug}`}>
-                  {g.name} <span class="taxonomy-count">{g.posts.length}</span>
+                <a class="tag tag-plain" href={`#${g.slug}`}>
+                  <strong>{g.name}</strong> <span class="taxonomy-count">{g.posts.length}</span>
                 </a>
               </li>
             ))
@@ -36,9 +36,12 @@ const groups = await groupPosts(kind);
             <h2 class="section-label">{g.name}</h2>
             <ul class="post-cards">
               {g.posts.map((p) => (
-                <PostCard post={p} />
+                <PostCard post={p} variant="simple" />
               ))}
             </ul>
+            <a class="back-to-top" href="#page-top">
+              Back to top ↑
+            </a>
           </section>
         ))
       }

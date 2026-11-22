@@ -63,3 +63,8 @@ export async function getPosts(): Promise<Post[]> {
 export function formatDate(d: Date): string {
   return d.toISOString().slice(0, 10);
 }
+
+/** "April 8, 2021" (the date format the Jekyll theme showed). */
+export function formatLongDate(d: Date): string {
+  return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+}

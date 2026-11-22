@@ -410,10 +410,12 @@ a:hover {
 .post-layout.has-toc .post {
   display: grid;
   grid-template-columns: minmax(0, 1fr) var(--toc);
+  /* The TOC column runs beside the footer too, so the sticky TOC never
+     slides over the tags/pager area. */
   grid-template-areas:
     'header header'
     'body toc'
-    'footer footer';
+    'footer toc';
   column-gap: 2rem;
 }
 .post {
@@ -450,11 +452,103 @@ a:hover {
 .post-footer {
   grid-area: footer;
   margin-top: 2.5rem;
-  padding-top: 1rem;
+  padding-top: 1.25rem;
   border-top: 1px dashed var(--line);
+}
+.post-taxonomy {
+  margin: 0;
+  display: grid;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+.post-taxonomy > div {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.75rem;
+}
+.post-taxonomy dt {
+  min-width: 5.5rem;
+  font-weight: 600;
+  color: var(--heading);
+}
+.post-taxonomy dd {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  color: var(--muted);
+}
+.post-taxonomy time {
+  font-family: var(--display);
+  letter-spacing: 0.03em;
+}
+.tag-category::before {
+  content: '▸';
+}
+.post-share {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   gap: 0.5rem;
+  margin-top: 1.5rem;
+  font-size: 0.85rem;
+}
+.post-share-title {
+  font-weight: 600;
+  color: var(--heading);
+  margin-right: 0.25rem;
+}
+.share-btn {
+  padding: 0.3rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  background: var(--card);
+}
+.share-btn:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.pager {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+}
+.pager-link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--bg);
+  color: var(--text);
+  min-width: 0;
+}
+a.pager-link:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.pager-next {
+  text-align: right;
+}
+.pager-label {
+  font-family: var(--display);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.pager-title {
+  font-size: 0.875rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pager-link.is-disabled {
+  opacity: 0.45;
 }
 
 .toc {
@@ -977,8 +1071,60 @@ details.expand[open] > summary {
   font-family: var(--display);
   opacity: 0.7;
 }
+.taxonomy-group > .section-label {
+  text-transform: none;
+  letter-spacing: 0.06em;
+  font-size: 1rem;
+}
 .taxonomy-group,
 .related {
   margin-top: 1.75rem;
   scroll-margin-top: 1rem;
+}
+
+/* Archive items: title + summary (Minimal Mistakes archive__item) */
+.post-cards-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (max-width: 760px) {
+  .post-cards-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.post-card-simple .post-card-summary {
+  margin-top: 0.35rem;
+}
+.title-list {
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.title-list li {
+  padding: 0.55rem 0;
+  border-bottom: 1px dashed var(--line);
+}
+.title-list li:last-child {
+  border-bottom: 0;
+}
+.title-list a {
+  color: var(--text);
+}
+.title-list a:hover {
+  color: var(--accent);
+}
+.title-list a::before {
+  content: '✧ ';
+  color: var(--accent);
+}
+.back-to-top {
+  display: inline-block;
+  margin-top: 0.6rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.tag-plain::before {
+  content: none;
+}
+.tag strong {
+  font-weight: 600;
 }

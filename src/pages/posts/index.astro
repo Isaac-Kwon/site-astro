@@ -1,8 +1,8 @@
 ---
+// Same content as the Jekyll /posts/ page: tag link + plain list of titles.
 import Base from '../../layouts/Base.astro';
 import AuthorProfile from '../../components/AuthorProfile.astro';
-import PostCard from '../../components/PostCard.astro';
-import { getPosts } from '../../lib/posts';
+import { getPosts, postUrl } from '../../lib/posts';
 
 const posts = await getPosts();
 ---
@@ -14,10 +14,16 @@ const posts = await getPosts();
       <section class="card intro">
         <h1 class="archive-title">Posts</h1>
         <p>태그로 보기 (View with Tag) : <a href="/tags/">Link</a></p>
+        <ul class="title-list">
+          {
+            posts.map((p) => (
+              <li>
+                <a href={postUrl(p)}>{p.data.title}</a>
+              </li>
+            ))
+          }
+        </ul>
       </section>
-      <ul class="post-cards">
-        {posts.map((p) => <PostCard post={p} />)}
-      </ul>
     </main>
   </div>
 </Base>

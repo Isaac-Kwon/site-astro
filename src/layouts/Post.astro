@@ -3,8 +3,19 @@ import type { MarkdownHeading } from 'astro';
 import Base from './Base.astro';
 import AuthorProfile from '../components/AuthorProfile.astro';
 import Toc from '../components/Toc.astro';
+import PostCard from '../components/PostCard.astro';
 import RootPlotLoader from '../components/RootPlotLoader.astro';
-import { formatDate, postTags, postDate, type Post } from '../lib/posts';
+import { SITE } from '../consts';
+import {
+  formatDate,
+  formatLongDate,
+  getPosts,
+  postCategories,
+  postDate,
+  postTags,
+  postUrl,
+  type Post,
+} from '../lib/posts';
 import { excerpt } from '../lib/excerpt';
 import { taxonomySlug } from '../lib/taxonomy';
 
@@ -15,9 +26,29 @@ interface Props {
 const { post, headings } = Astro.props;
 const { title, toc, toc_label, toc_sticky, last_modified_at } = post.data;
 const date = postDate(post);
+const updated = last_modified_at ?? date;
 const description = post.data.description ?? post.data.excerpt ?? excerpt(post.body);
-const tags = postTags(post);
-const minutes = Math.max(1, Math.round((post.body ?? '').length / 500));
+// The Jekyll theme listed tags and categories alphabetically.
+const byName = (a: string, b: string) => a.toLowerCase().localeCompare(b.toLowerCase());
+const tags = [...postTags(post)].sort(byName);
+const categories = [...postCategories(post)].sort(byName);
+
+// Same structure as the Jekyll theme: Previous = older post, Next = newer,
+// "You may also enjoy" = the 4 most recent other posts.
+const all = await getPosts(); // newest first
+const i = all.findIndex((p) => p.id === post.id);
+const previous = all[i + 1];
+const next = i > 0 ? all[i - 1] : undefined;
+const related = all.filter((p) => p.id !== post.id).slice(0, 4);
+
+const url = new URL(postUrl(post), SITE.url).href;
+const enc = encodeURIComponent;
+const share = [
+  { label: 'X', href: `https://x.com/intent/tweet?text=${enc(`${title} ${url}`)}` },
+  { label: 'Facebook', href: `https://www.facebook.com/sharer/sharer.php?u=${enc(url)}` },
+  { label: 'LinkedIn', href: `https://www.linkedin.com/shareArticle?mini=true&url=${enc(url)}` },
+  { label: 'Bluesky', href: `https://bsky.app/intent/compose?text=${enc(`${title} ${url}`)}` },
+];
 ---
 
 <Base
@@ -33,28 +64,92 @@ const minutes = Math.max(1, Math.round((post.body ?? '').length / 500));
       <article class="post card">
         <header class="post-header">
           <h1 class="post-title">{title}</h1>
-          <p class="post-meta">
-            <time datetime={date.toISOString()}>{formatDate(date)}</time>
-            {last_modified_at && <span> · 수정 {formatDate(last_modified_at)}</span>}
-            <span> · 약 {minutes}분</span>
-          </p>
         </header>
         {toc && <Toc headings={headings} label={toc_label} sticky={toc_sticky} />}
         <div class="prose">
           <slot />
         </div>
-        {
-          tags.length > 0 && (
-            <footer class="post-footer">
-              {tags.map((t) => (
-                <a class="tag" href={`/tags/#${taxonomySlug(t)}`}>
-                  {t}
+        <footer class="post-footer">
+          <dl class="post-taxonomy">
+            {
+              tags.length > 0 && (
+                <div>
+                  <dt>Tags</dt>
+                  <dd>
+                    {tags.map((t) => (
+                      <a class="tag" href={`/tags/#${taxonomySlug(t)}`} rel="tag">
+                        {t}
+                      </a>
+                    ))}
+                  </dd>
+                </div>
+              )
+            }
+            {
+              categories.length > 0 && (
+                <div>
+                  <dt>Categories</dt>
+                  <dd>
+                    {categories.map((c) => (
+                      <a class="tag tag-category" href={`/categories/#${taxonomySlug(c)}`} rel="tag">
+                        {c}
+                      </a>
+                    ))}
+                  </dd>
+                </div>
+              )
+            }
+            <div>
+              <dt>Updated</dt>
+              <dd>
+                <time datetime={formatDate(updated)}>{formatLongDate(updated)}</time>
+              </dd>
+            </div>
+          </dl>
+          <div class="post-share">
+            <span class="post-share-title">Share on</span>
+            {
+              share.map((s) => (
+                <a class="share-btn" href={s.href} target="_blank" rel="noopener noreferrer">
+                  {s.label}
                 </a>
-              ))}
-            </footer>
-          )
-        }
+              ))
+            }
+          </div>
+          <nav class="pager" aria-label="Post pagination">
+            {
+              previous ? (
+                <a class="pager-link" href={postUrl(previous)} title={previous.data.title}>
+                  <span class="pager-label">← Previous</span>
+                  <span class="pager-title">{previous.data.title}</span>
+                </a>
+              ) : (
+                <span class="pager-link is-disabled">
+                  <span class="pager-label">← Previous</span>
+                </span>
+              )
+            }
+            {
+              next ? (
+                <a class="pager-link pager-next" href={postUrl(next)} title={next.data.title}>
+                  <span class="pager-label">Next →</span>
+                  <span class="pager-title">{next.data.title}</span>
+                </a>
+              ) : (
+                <span class="pager-link pager-next is-disabled">
+                  <span class="pager-label">Next →</span>
+                </span>
+              )
+            }
+          </nav>
+        </footer>
       </article>
+      <section class="related">
+        <h2 class="section-label">You may also enjoy</h2>
+        <ul class="post-cards post-cards-grid">
+          {related.map((p) => <PostCard post={p} variant="simple" />)}
+        </ul>
+      </section>
     </div>
   </div>
   <RootPlotLoader />
