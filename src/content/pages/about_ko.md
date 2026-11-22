@@ -13,10 +13,22 @@ CV (영어) : [Download](/assets/files/MKWON_CV.pdf)
 
 - 2022년 9월 - 2025년 10월 : __연구원__, 자연과학연구소, 서울시립대학교, 서울, 대한민국
 
+## 활동
+
+- *현재* : __현지 조직위원회(LOC)__, 제32회 Quark Matter 국제학회 (Quark Matter 2027), 제주, 대한민국
+- 2021년 9월 - 2022년 6월 : __현지 조직위원, 기술 스태프__, SQM2022 (제20회 Strangeness in Quark Matter 국제학회), 부산, 대한민국
+- 2021년 9월 - 2022년 8월 : __ALICE-ITS On-call__, ALICE, CERN
+- 2021 - 2022 : __ALICE 지하 실험시설 가이드__, ALICE, CERN
+- 2019년 7월 - 8월 : __CERN 썸머 스튜던트__ (Non-Member State Summer Students 2019), CERN, 스위스
+- 2019년 3월 - 2022년 8월 : __조교__, 일반물리학실험, 국립 부산대학교
+- 2016년 12월 - 2022년 8월 : __학생연구원__, 고에너지 중이온 실험실 (HIPEx), 국립 부산대학교
+- 2023년 11월 - *현재* : __번역팀__ (영어→한국어), [Indico](https://getindico.io), [InvenioRDM](https://inveniordm.docs.cern.ch)
+
 ## Education
 
 - 2015년 3월 - 2019년 2월 : __이학사__, 물리학과, 국립 부산대학교, 부산, 대한민국.  
-- 2019년 3월 - 2022년 2월 : __이학 석사__, 물리학과, 국립 부산대학교, 부산, 대한민국.
+- 2019년 3월 - 2022년 2월 : __이학 석사__, 물리학과, 국립 부산대학교, 부산, 대한민국.  
+  학위논문: *Study on reciprocal scattering of low energy alpha source using silicon pixel detector* (지도교수: 유인권)
 - 2025년 11월 - *현재* : __박사 과정(Ph.D Course, Dottorato di Ricerca)__, 물리학, 토리노대학교, 토리노, 이탈리아.
 
 ## Interests
