@@ -23,6 +23,9 @@
   --selection: #cfe2fb;
   --card-hover-shadow: 0 10px 28px rgb(58 123 213 / 0.12);
   --radius: 18px;
+  --bar-h: 4rem;
+  /* actual top-bar height; measured by the script in Base.astro */
+  --bar-space: var(--bar-h);
   --max-width: 1320px;
   --sidebar: 230px;
   --toc: 220px;
@@ -88,7 +91,8 @@
 html {
   font-size: 16px;
   -webkit-text-size-adjust: 100%;
-  scroll-padding-top: 1.5rem;
+  /* anchors land below the fixed top bar */
+  scroll-padding-top: calc(var(--bar-space) + 1rem);
 }
 
 body {
@@ -124,7 +128,7 @@ a:hover {
   position: fixed;
   left: 1rem;
   top: -5rem;
-  z-index: 20;
+  z-index: 60;
   padding: 0.6rem 1.2rem;
   background: var(--card);
   border-radius: 12px;
@@ -143,27 +147,54 @@ a:hover {
 /* ---------- Header band (gradient + waves, no images) ---------- */
 .site-header {
   position: relative;
-  padding: 1rem 1rem 0;
+  /* room for the fixed top bar */
+  padding: var(--bar-space) 1rem 0;
   background:
     radial-gradient(var(--dot) 1px, transparent 1.6px) 0 0 / 18px 18px,
     linear-gradient(115deg, var(--hero-from), var(--hero-mid) 48%, var(--hero-to));
   overflow: hidden;
 }
+/* Fixed full-width top bar (Shirone-style): transparent over the header
+   band, blurred surface with a hairline once the page scrolls past it. */
 .masthead {
-  max-width: var(--max-width);
-  margin: 0 auto;
-  position: relative;
-  z-index: 2;
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 50;
+  background: color-mix(in srgb, var(--card) 86%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+  box-shadow: 0 4px 18px rgb(30 50 90 / 0.06);
+  transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+.masthead.is-transparent {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom-color: transparent;
+  box-shadow: none;
 }
 .masthead-inner {
+  max-width: var(--max-width);
+  min-height: var(--bar-h);
+  margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.5rem 1.5rem;
-  padding: 0.6rem 0.75rem 0.6rem 1.25rem;
-  background: color-mix(in srgb, var(--card) 78%, transparent);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  gap: 0.35rem 1.5rem;
+  padding: 0.5rem 1.25rem;
+}
+.masthead.is-transparent .site-title,
+.masthead.is-transparent nav a {
+  color: var(--hero-text);
+}
+.masthead.is-transparent nav a:hover {
+  background: color-mix(in srgb, var(--card) 40%, transparent);
+}
+.masthead.is-transparent .icon-btn {
+  background: color-mix(in srgb, var(--card) 35%, transparent);
+  border-color: color-mix(in srgb, var(--card) 55%, transparent);
+  color: var(--hero-text);
 }
 .site-title {
   display: inline-flex;
@@ -365,7 +396,7 @@ a:hover {
   text-align: center;
   font-size: 0.875rem;
   position: sticky;
-  top: 1rem;
+  top: calc(var(--bar-space) + 1rem);
 }
 .author-avatar {
   display: block;
@@ -589,8 +620,8 @@ a.pager-link:hover {
 }
 .toc-sticky {
   position: sticky;
-  top: 1rem;
-  max-height: calc(100vh - 2rem);
+  top: calc(var(--bar-space) + 1rem);
+  max-height: calc(100vh - var(--bar-space) - 2rem);
   overflow-y: auto;
 }
 .toc-title {
@@ -667,7 +698,7 @@ a.tag:hover {
   color: var(--heading);
   line-height: 1.4;
   margin: 2.4rem 0 0.8rem;
-  scroll-margin-top: 1.5rem;
+  scroll-margin-top: 0.5rem;
 }
 .prose h2 {
   font-size: 1.45rem;
@@ -1024,7 +1055,7 @@ details.expand[open] > summary {
 
 @media (max-width: 640px) {
   .site-header {
-    padding: 0.75rem 0.75rem 0;
+    padding: var(--bar-space) 0.75rem 0;
   }
   .masthead-inner {
     padding: 0.5rem 0.5rem 0.5rem 0.9rem;

@@ -84,7 +84,7 @@ const current = pathname;
     <a class="skip-link" href="#main">본문으로 건너뛰기</a>
     <header class:list={['site-header', { 'site-header-hero': hero }]}>
       <div class="masthead">
-        <div class="masthead-inner card">
+        <div class="masthead-inner">
         <a class="site-title" href="/">{SITE.title}</a>
         <nav aria-label="Main">
           <ul>
@@ -129,6 +129,36 @@ const current = pathname;
         <path class="wave wave-3" d="M0 46 Q150 32 300 46 T600 46 T900 46 T1200 46 T1500 46 T1800 46 V60 H0 Z" />
       </svg>
     </header>
+    <script is:inline>
+      // Fixed top bar: transparent while it sits over the header band,
+      // solid (blurred surface) once the page scrolls past it.
+      (() => {
+        const bar = document.querySelector('.masthead');
+        const band = document.querySelector('.site-header');
+        if (!bar || !band) return;
+        let queued = false;
+        const measure = () =>
+          document.documentElement.style.setProperty('--bar-space', bar.offsetHeight + 'px');
+        const update = () => {
+          queued = false;
+          const over = scrollY + bar.offsetHeight < band.offsetHeight - 24;
+          bar.classList.toggle('is-transparent', over);
+          bar.classList.toggle('is-scrolled', scrollY > 8);
+        };
+        measure();
+        update();
+        addEventListener('scroll', () => {
+          if (!queued) {
+            queued = true;
+            requestAnimationFrame(update);
+          }
+        }, { passive: true });
+        addEventListener('resize', () => {
+          measure();
+          update();
+        });
+      })();
+    </script>
     <div id="main" class="page-wrap">
       <slot />
     </div>
